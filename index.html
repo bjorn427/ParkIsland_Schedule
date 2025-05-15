@@ -11,10 +11,10 @@
             --app-accent-color: #498189;
             --app-accent-color-darker: #3A6B73;
             --app-nav-background: #eff5f6;
-            --app-nav-icon-active-bg: #CDE2F0; /* Light blue for active icon circle */
-            --app-icon-active-color: white;
+            --app-nav-icon-active-bg: #CDE2F0; 
+            --app-icon-active-color: white; /* White icon on light blue circle */
             --app-icon-inactive-color: #6B7280; /* gray-500 */
-            --app-text-active-color: #374151; /* gray-700 or a bit darker */
+            --app-text-active-color: var(--app-accent-color); /* Accent color for active text */
             --app-text-inactive-color: #6B7280; /* gray-500 */
         }
 
@@ -33,14 +33,22 @@
         main {
             flex-grow: 1; 
             overflow-y: auto; 
+            /* Consistent padding for all tab content areas */
+            padding: 0.75rem; /* p-3 */
         }
+        @media (min-width: 640px) { /* sm breakpoint */
+            main {
+                padding: 1rem; /* sm:p-4 */
+            }
+        }
+
+        /* Ensure schedule pane and its card take up available height */
         .content-pane#schedule-pane.active { 
             display: flex; 
             flex-direction: column;
-            height: calc(100% - 0px); 
-            overflow: hidden; 
+            /* height: calc(100% - 0px); No longer needed if cards dictate height */
         }
-        .content-pane#schedule-pane.active > .card-ive { 
+        .content-pane#schedule-pane.active > .schedule-content-wrapper { 
             display: flex;
             flex-direction: column;
             flex-grow: 1; 
@@ -92,27 +100,29 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 8px; /* Adjust padding for new layout */
+            padding-top: 6px; /* Reduced top padding */
             padding-bottom: 4px;
+            flex: 1;
+            transition: color 0.2s ease-in-out;
         }
         .bottom-nav-icon-wrapper {
-            width: 48px; /* Increased width for the circle */
-            height: 28px; /* Height for the circle/pill */
+            width: 56px; /* Width for the pill/circle */
+            height: 32px; /* Height for the pill/circle */
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 16px; /* Pill shape */
-            margin-bottom: 2px; /* Space between icon circle and text */
+            margin-bottom: 1px; /* Reduced space */
             transition: background-color 0.2s ease-in-out;
         }
         .bottom-nav-button svg {
             stroke: var(--app-icon-inactive-color);
             transition: stroke 0.2s ease-in-out;
-            width: 24px; /* h-6 */
-            height: 24px; /* w-6 */
+            width: 24px; 
+            height: 24px; 
         }
         .bottom-nav-button .nav-text {
-            font-size: 0.75rem; /* text-xs */
+            font-size: 0.75rem; 
             color: var(--app-text-inactive-color);
             transition: color 0.2s ease-in-out, font-weight 0.2s ease-in-out;
         }
@@ -121,11 +131,11 @@
             background-color: var(--app-nav-icon-active-bg);
         }
         .bottom-nav-button.active svg {
-            stroke: var(--app-accent-color); /* Icon color for active tab (not white if background is light blue) */
+            stroke: var(--app-accent-color); 
         }
         .bottom-nav-button.active .nav-text {
-            color: var(--app-accent-color); /* Darker/bolder text for active tab */
-            font-weight: 500; /* medium */
+            color: var(--app-text-active-color); 
+            font-weight: 600; /* semibold for more prominence */
         }
         
         .content-pane {
@@ -146,9 +156,7 @@
             border-bottom: 1px solid #dddddd;
             font-weight: 500;
             font-size: 0.875rem; 
-            position: sticky; 
-            top: 0;
-            z-index: 20; 
+            /* position: sticky; top: 0; z-index: 20; -- Applied by JS if needed, or directly if parent is scrollable */
         }
         .static-schedule-header-fixed .hour-header {
             width: 25%; 
@@ -272,7 +280,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800"> 
     <div class="min-h-screen flex flex-col"> 
-        <main class="flex-grow p-3 sm:p-4"> 
+        <main> 
             <div id="home-pane" class="content-pane">
                 <div id="time-card" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4">
                     <div id="current-time" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
@@ -316,11 +324,11 @@
             </div>
 
             <div id="schedule-pane" class="content-pane">
-                <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col h-full"> 
-                     <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
-                        <div id="current-time-schedule" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
-                        <div id="current-day-date-schedule" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
-                    </div>
+                <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
+                    <div id="current-time-schedule" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
+                    <div id="current-day-date-schedule" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
+                </div>
+                <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col schedule-content-wrapper"> 
                     <h2 class="text-base sm:text-xl font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
                     <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-sm flex-shrink-0">
                         <option value="">Select a Route and Direction</option> 
@@ -368,7 +376,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h3 class="text-base sm:text-lg font-medium text-gray-700 mb-2">About This App</h3>
                         <p class="text-gray-600 text-base leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-sm">Version: 5.5.6 "Ive - Nav & UI Polish"</p>
+                        <p class="text-gray-600 mt-2 text-sm">Version: 5.5.7 "Ive - Google Nav Style"</p>
                     </div>
                 </div>
             </div>
@@ -378,19 +386,19 @@
             <div class="max-w-md mx-auto flex justify-around items-center h-16"> 
                 <button data-tab="home" class="bottom-nav-button">
                     <div class="bottom-nav-icon-wrapper">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                     </div>
                     <span class="nav-text">Home</span>
                 </button>
                 <button data-tab="schedule" class="bottom-nav-button">
                     <div class="bottom-nav-icon-wrapper">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </div>
                     <span class="nav-text">Schedule</span> 
                 </button>
                 <button data-tab="settings" class="bottom-nav-button">
                     <div class="bottom-nav-icon-wrapper">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                         </svg>
@@ -554,9 +562,9 @@
 
                 button.classList.add('active');
                 button.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'var(--app-nav-icon-active-bg)';
-                button.querySelector('svg').style.stroke = 'var(--app-accent-color)'; // Icon color for active tab
+                button.querySelector('svg').style.stroke = 'var(--app-accent-color)';
                 button.querySelector('.nav-text').style.color = 'var(--app-text-active-color)';
-                button.querySelector('.nav-text').style.fontWeight = '500';
+                button.querySelector('.nav-text').style.fontWeight = '600';
                 
                 contentPanes.forEach(pane => {
                     pane.classList.remove('active');
@@ -707,7 +715,6 @@
         async function fetchTrainSchedule(lineName, stationName) {
             const lineConfig = mtrApiConfig[lineName];
             if (!lineConfig || !lineConfig.stations[stationName]) {
-                console.error("Invalid line or station for API call:", lineName, stationName);
                 return null;
             }
             const lineCode = lineConfig.apiLineCode;
@@ -718,7 +725,6 @@
             try {
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
-                    console.error("API request failed with status:", response.status);
                     return trainDataCache[cacheKey] || null; 
                 }
                 const data = await response.json();
@@ -728,11 +734,9 @@
                 } else if (data.status === 0) { 
                     return { specialMessage: data.message, alertUrl: data.url }; 
                 } else {
-                    console.warn("API returned no valid schedule data:", data);
                     return trainDataCache[cacheKey] || null; 
                 }
             } catch (error) {
-                console.error("Error fetching train schedule:", error);
                 return trainDataCache[cacheKey] || null; 
             }
         }
@@ -868,11 +872,12 @@
                             const li = document.createElement('li');
                             li.className = 'py-1.5 flex justify-between items-center w-full';
                             const arrivalTime = new Date(train.time);
-                            const displayTime = arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                            const displayTime = arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
                             const minutesText = formatMinutesLeft(parseInt(train.ttnt));
                             const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
                             const timeClass = index === 0 ? 'font-semibold text-base text-gray-800' : 'font-medium text-sm text-gray-600'; 
-                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass}">${minutesText}</span>`;
+                            const waitingTimeBoldClass = index === 0 ? 'font-semibold' : '';
+                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass} ${waitingTimeBoldClass}">${minutesText}</span>`;
                             targetEl.appendChild(li);
                             count++;
                         }
@@ -900,7 +905,8 @@
                         const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right'; 
                         const timeDisplayString = arr.time;
                         const timeClass = index === 0 ? 'font-semibold text-base text-gray-800' : 'font-medium text-sm text-gray-600'; 
-                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass}">${minutesText}</span>`;
+                        const waitingTimeBoldClass = index === 0 ? 'font-semibold' : '';
+                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass} ${waitingTimeBoldClass}">${minutesText}</span>`;
                         targetEl.appendChild(li);
                     });
                 }
@@ -1196,7 +1202,7 @@
                  firstTabButton.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'var(--app-nav-icon-active-bg)';
                  firstTabButton.querySelector('svg').style.stroke = 'var(--app-accent-color)';
                  firstTabButton.querySelector('.nav-text').style.color = 'var(--app-text-active-color)';
-                 firstTabButton.querySelector('.nav-text').style.fontWeight = '500';
+                 firstTabButton.querySelector('.nav-text').style.fontWeight = '600';
             }
             const homePane = document.getElementById('home-pane');
             if (homePane) homePane.classList.add('active'); 

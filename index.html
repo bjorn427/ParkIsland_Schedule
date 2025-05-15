@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transit Schedules - Ive Inspired</title>
+    <title>Park Island / MTR Schedule App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --app-accent-color: #498189;
+            --app-accent-color-darker: #3A6B73;
+            --app-nav-background: #eff5f6;
+            --app-nav-icon-active-bg: #CDE2F0; /* Light blue for active icon circle */
+            --app-icon-active-color: white;
+            --app-icon-inactive-color: #6B7280; /* gray-500 */
+            --app-text-active-color: #374151; /* gray-700 or a bit darker */
+            --app-text-inactive-color: #6B7280; /* gray-500 */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             overscroll-behavior-y: contain; 
-            padding-bottom: 70px; 
+            padding-bottom: 60px; 
             background-color: #f7f7f7; 
             color: #333333; 
             -webkit-font-smoothing: antialiased;
@@ -37,7 +48,7 @@
         }
         #static-bus-schedule-table-container {
             flex-grow: 1; 
-            overflow-y: auto;
+            overflow-y: auto; 
         }
         ::-webkit-scrollbar {
             width: 6px;
@@ -67,22 +78,56 @@
             border-radius: 6px; 
             color: #333333;
             font-weight: 400;
+            font-size: 0.875rem; /* text-sm */
         }
         select:focus {
             outline: none;
             border-color: #aaaaaa; 
             box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05); 
         }
+
+        .bottom-nav-button {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 8px; /* Adjust padding for new layout */
+            padding-bottom: 4px;
+        }
+        .bottom-nav-icon-wrapper {
+            width: 48px; /* Increased width for the circle */
+            height: 28px; /* Height for the circle/pill */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px; /* Pill shape */
+            margin-bottom: 2px; /* Space between icon circle and text */
+            transition: background-color 0.2s ease-in-out;
+        }
+        .bottom-nav-button svg {
+            stroke: var(--app-icon-inactive-color);
+            transition: stroke 0.2s ease-in-out;
+            width: 24px; /* h-6 */
+            height: 24px; /* w-6 */
+        }
+        .bottom-nav-button .nav-text {
+            font-size: 0.75rem; /* text-xs */
+            color: var(--app-text-inactive-color);
+            transition: color 0.2s ease-in-out, font-weight 0.2s ease-in-out;
+        }
+
+        .bottom-nav-button.active .bottom-nav-icon-wrapper {
+            background-color: var(--app-nav-icon-active-bg);
+        }
         .bottom-nav-button.active svg {
-            stroke: #007AFF; 
+            stroke: var(--app-accent-color); /* Icon color for active tab (not white if background is light blue) */
         }
         .bottom-nav-button.active .nav-text {
-            color: #007AFF; 
-            font-weight: 500; 
+            color: var(--app-accent-color); /* Darker/bolder text for active tab */
+            font-weight: 500; /* medium */
         }
-         .settings-button.active svg { 
-             stroke: #007AFF; 
-        }
+        
         .content-pane {
             display: none;
             opacity: 0;
@@ -92,44 +137,62 @@
             display: block; 
             opacity: 1;
         }
+        
+        .static-schedule-header-fixed {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 8px 4px 8px; 
+            background-color: #f0f0f0; 
+            border-bottom: 1px solid #dddddd;
+            font-weight: 500;
+            font-size: 0.875rem; 
+            position: sticky; 
+            top: 0;
+            z-index: 20; 
+        }
+        .static-schedule-header-fixed .hour-header {
+            width: 25%; 
+            text-align: left;
+            padding-left: 0.75rem; 
+        }
+        .static-schedule-header-fixed .minutes-header {
+            width: 75%; 
+            text-align: left;
+        }
+
         .static-schedule-table table {
             width: 100%;
             border-collapse: collapse;
         }
-        .static-schedule-table th, .static-schedule-table td {
+        .static-schedule-table td { 
             border-bottom: 1px solid #eeeeee;
-            padding: 10px 8px; 
+            padding: 5px 8px; 
             text-align: left;
             font-weight: 400;
             vertical-align: top; 
         }
-        .static-schedule-table th {
-            background-color: #f9f9f9;
-            font-weight: 500;
-            font-size: 0.9rem; /* Slightly larger header */
-            text-align: center;
-        }
         .static-schedule-table td.hour-cell {
-            font-weight: 500;
-            text-align: center;
-            width: 25%; /* Adjusted width */
-            font-size: 0.9rem; /* Larger hour */
+            font-weight: 600; 
+            text-align: left; 
+            padding-left: 0.75rem; 
+            font-size: 0.875rem; 
+            width: 25%; 
         }
         .static-schedule-table td.minutes-cell {
-            width: 75%; /* Adjusted width */
-            font-size: 0.875rem; /* Larger minutes (text-sm equivalent) */
-            line-height: 1.7; 
+            font-size: 0.875rem; 
+            line-height: 1.6; 
+            width: 75%; 
         }
         .static-schedule-table .minute-item {
             display: inline-block;
-            margin-right: 8px; 
-            margin-bottom: 3px;
+            margin-right: 5px; 
+            margin-bottom: 2px;
         }
         .static-schedule-table tr:last-child td {
             border-bottom: none;
         }
         .text-now-emphasis {
-            color: #007AFF; 
+            color: var(--app-accent-color);
             font-weight: 600; 
         }
         .card-ive {
@@ -138,7 +201,7 @@
             border: 1px solid #e8e8e8; 
         }
          .button-ive {
-            background-color: #007AFF; 
+            background-color: var(--app-accent-color);
             color: #ffffff; 
             transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
@@ -148,18 +211,15 @@
             letter-spacing: normal;
         }
         .button-ive:hover {
-            background-color: #005ecb; 
+            background-color: var(--app-accent-color-darker);
         }
         .bottom-nav-ive {
-            background-color: rgba(255, 255, 255, 0.95); 
+            background-color: var(--app-nav-background); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid rgba(0, 0, 0, 0.08); 
         }
-        .bottom-nav-button svg {
-             transition: stroke 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-             stroke-width: 1.5; 
-        }
+        
         .segmented-control-container {
             display: flex;
             background-color: #e9ecef; 
@@ -168,11 +228,11 @@
             width: 100%; 
         }
         .schedule-type-segment {
-            padding: 0.4rem 0.75rem; /* Slightly increased padding */
+            padding: 0.4rem 0.75rem; 
             border-radius: 6px; 
             background-color: transparent;
             color: #495057; 
-            font-size: 0.875rem; /* text-sm equivalent */
+            font-size: 0.875rem; 
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.25s cubic-bezier(0.4,0,0.2,1), color 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1);
@@ -181,7 +241,7 @@
         }
         .schedule-type-segment.active { 
             background-color: #ffffff; 
-            color: #007AFF; 
+            color: var(--app-accent-color);
             box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); 
         }
         .schedule-type-segment:hover:not(.active) { 
@@ -191,6 +251,23 @@
             color: #6b7280; 
             font-style: italic;
         }
+        #settings-saved-message {
+            position: absolute;
+            top: 1rem; 
+            right: 1rem; 
+            background-color: #10B981; 
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 0.375rem; 
+            font-size: 0.875rem; 
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #settings-saved-message.show {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800"> 
@@ -203,7 +280,7 @@
                 </div>
                 <div class="grid grid-cols-1 gap-3 sm:gap-4">
                     <div id="bus-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
-                        <h2 class="text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-2.5">Park Island Departures</h2>
+                        <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-2.5">Park Island Departures</h2>
                         <select id="bus-route-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
                         <div id="bus-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
                             <div class="w-1/2 flex flex-col">
@@ -219,7 +296,7 @@
                         </div>
                     </div>
                     <div id="train-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
-                        <h2 class="text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-2.5">Train Departures</h2>
+                        <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-2.5">Train Departures</h2>
                         <select id="train-line-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 text-sm"></select>
                         <select id="train-station-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
                         <div id="train-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
@@ -240,6 +317,10 @@
 
             <div id="schedule-pane" class="content-pane">
                 <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col h-full"> 
+                     <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
+                        <div id="current-time-schedule" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
+                        <div id="current-day-date-schedule" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
+                    </div>
                     <h2 class="text-base sm:text-xl font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
                     <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-sm flex-shrink-0">
                         <option value="">Select a Route and Direction</option> 
@@ -249,6 +330,10 @@
                         <button data-scheduletype="saturday" class="schedule-type-segment">Saturday</button>
                         <button data-scheduletype="sundayPublicHoliday" class="schedule-type-segment">Sun/PH</button>
                     </div>
+                    <div id="static-schedule-fixed-header" class="static-schedule-header-fixed flex-shrink-0">
+                        <div class="hour-header">Hour</div>
+                        <div class="minutes-header">Minutes</div>
+                    </div>
                     <div id="static-bus-schedule-table-container" class="static-schedule-table overflow-auto flex-grow">
                         <p class="text-gray-500 text-base px-2 sm:px-3">Please select a route, direction, and schedule type.</p>
                     </div>
@@ -256,7 +341,8 @@
             </div>
 
             <div id="settings-pane" class="content-pane">
-                <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6">
+                <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 relative"> 
+                    <p id="settings-saved-message" class="hidden">Settings saved!</p>
                     <h2 class="text-base sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6">Settings</h2>
                     <div class="space-y-5">
                         <div>
@@ -278,32 +364,38 @@
                             <button id="save-favorite-train" class="button-ive mt-2.5 px-4 text-sm">Save Train Preference</button>
                         </div>
                     </div>
-                    <p id="settings-saved-message" class="mt-4 text-green-600 text-sm"></p>
-
+                    
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h3 class="text-base sm:text-lg font-medium text-gray-700 mb-2">About This App</h3>
                         <p class="text-gray-600 text-base leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-sm">Version: 5.5.2 "Ive - Larger Body Text"</p>
+                        <p class="text-gray-600 mt-2 text-sm">Version: 5.5.6 "Ive - Nav & UI Polish"</p>
                     </div>
                 </div>
             </div>
         </main>
 
         <nav class="bottom-nav-ive fixed bottom-0 left-0 w-full z-30">
-            <div class="max-w-md mx-auto flex justify-around items-center h-[70px]">
-                <button data-tab="home" class="bottom-nav-button flex flex-col items-center justify-center text-gray-500 hover:text-blue-600 p-2 flex-1 transition-colors">
-                    <svg class="h-6 w-6 mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                    <span class="nav-text text-xs">Home</span>
+            <div class="max-w-md mx-auto flex justify-around items-center h-16"> 
+                <button data-tab="home" class="bottom-nav-button">
+                    <div class="bottom-nav-icon-wrapper">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </div>
+                    <span class="nav-text">Home</span>
                 </button>
-                <button data-tab="schedule" class="bottom-nav-button flex flex-col items-center justify-center text-gray-500 hover:text-blue-600 p-2 flex-1 transition-colors">
-                    <svg class="h-6 w-6 mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    <span class="nav-text text-xs">Schedule</span> </button>
-                <button data-tab="settings" class="bottom-nav-button flex flex-col items-center justify-center text-gray-500 hover:text-blue-600 p-2 flex-1 transition-colors">
-                     <svg class="h-6 w-6 mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    <span class="nav-text text-xs">Settings</span>
+                <button data-tab="schedule" class="bottom-nav-button">
+                    <div class="bottom-nav-icon-wrapper">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <span class="nav-text">Schedule</span> 
+                </button>
+                <button data-tab="settings" class="bottom-nav-button">
+                    <div class="bottom-nav-icon-wrapper">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <span class="nav-text">Settings</span>
                 </button>
             </div>
         </nav>
@@ -429,6 +521,8 @@
 
         const currentTimeEl = document.getElementById('current-time');
         const currentDayDateEl = document.getElementById('current-day-date'); 
+        const currentTimeScheduleEl = document.getElementById('current-time-schedule');
+        const currentDayDateScheduleEl = document.getElementById('current-day-date-schedule');
         const busRouteSelect = document.getElementById('bus-route-select');
         const trainLineSelect = document.getElementById('train-line-select'); 
         const trainStationSelect = document.getElementById('train-station-select');
@@ -444,18 +538,34 @@
         const allTabButtons = document.querySelectorAll('.bottom-nav-button'); 
         const contentPanes = document.querySelectorAll('.content-pane');
         let currentStaticScheduleType = 'weekday'; 
+        let trainDataCache = {}; 
 
         allTabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const targetTab = button.dataset.tab; 
-                allTabButtons.forEach(btn => btn.classList.remove('active'));
+                
+                allTabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'transparent';
+                    btn.querySelector('svg').style.stroke = 'var(--app-icon-inactive-color)';
+                    btn.querySelector('.nav-text').style.color = 'var(--app-text-inactive-color)';
+                    btn.querySelector('.nav-text').style.fontWeight = 'normal';
+                });
+
                 button.classList.add('active');
+                button.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'var(--app-nav-icon-active-bg)';
+                button.querySelector('svg').style.stroke = 'var(--app-accent-color)'; // Icon color for active tab
+                button.querySelector('.nav-text').style.color = 'var(--app-text-active-color)';
+                button.querySelector('.nav-text').style.fontWeight = '500';
+                
                 contentPanes.forEach(pane => {
                     pane.classList.remove('active');
                     if (pane.id === `${targetTab}-pane`) pane.classList.add('active');
                 });
+
                 if (targetTab === 'home') updateLiveSchedules();
                 if (targetTab === 'schedule') { 
+                    updateDateTimeDisplay(new Date(), true); 
                     if (staticBusRouteSelect.value === "" && staticBusRouteSelect.options.length > 1) {
                          if (staticBusRouteSelect.options[0].value === "") staticBusRouteSelect.selectedIndex = 1;
                     }
@@ -471,10 +581,13 @@
             return 'weekday';
         }
 
-        function updateDateTimeDisplay(now) {
-            if (currentTimeEl) currentTimeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-            if (currentDayDateEl) {
-                 currentDayDateEl.textContent = `${now.toLocaleDateString([], { weekday: 'long' })}, ${now.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' })}`;
+        function updateDateTimeDisplay(now, isScheduleTab = false) {
+            const timeEl = isScheduleTab ? currentTimeScheduleEl : currentTimeEl;
+            const dateEl = isScheduleTab ? currentDayDateScheduleEl : currentDayDateEl;
+
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            if (dateEl) {
+                 dateEl.textContent = `${now.toLocaleDateString([], { weekday: 'long' })}, ${now.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' })}`;
             }
         }
         
@@ -599,26 +712,28 @@
             }
             const lineCode = lineConfig.apiLineCode;
             const stationCode = lineConfig.stations[stationName];
+            const cacheKey = `${lineCode}-${stationCode}`;
             const apiUrl = `https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${lineCode}&sta=${stationCode}&lang=EN`;
 
             try {
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
                     console.error("API request failed with status:", response.status);
-                    return null; 
+                    return trainDataCache[cacheKey] || null; 
                 }
                 const data = await response.json();
-                if (data.status === 1 && data.data && data.data[`${lineCode}-${stationCode}`]) {
-                    return data.data[`${lineCode}-${stationCode}`];
+                if (data.status === 1 && data.data && data.data[cacheKey]) {
+                    trainDataCache[cacheKey] = data.data[cacheKey]; 
+                    return data.data[cacheKey];
                 } else if (data.status === 0) { 
                     return { specialMessage: data.message, alertUrl: data.url }; 
                 } else {
                     console.warn("API returned no valid schedule data:", data);
-                    return null;
+                    return trainDataCache[cacheKey] || null; 
                 }
             } catch (error) {
                 console.error("Error fetching train schedule:", error);
-                return null;
+                return trainDataCache[cacheKey] || null; 
             }
         }
 
@@ -629,7 +744,7 @@
             const minutes = totalMinutes % 60;
             let hourText = `${hours}h`;
             if (minutes === 0) return hourText;
-            let minuteText = `${minutes}min`;
+            let minuteText = String(minutes).padStart(2, '0') + 'min'; 
             return `${hourText} ${minuteText}`;
         }
         
@@ -691,6 +806,9 @@
             let lineConfig = null;
             let currentDayTypeForBusRoute = getCurrentDayType(now); 
 
+            const dir1TimesEl = document.getElementById(`${type}-direction1-times`);
+            const dir2TimesEl = document.getElementById(`${type}-direction2-times`);
+
             if (type === 'bus') {
                 const routeScheduleAllTypes = mockSchedules.bus[selectedValue];
                 if (routeScheduleAllTypes) {
@@ -703,6 +821,10 @@
             } else if (type === 'train') {
                 lineConfig = mtrApiConfig[selectedLineValue];
                 if (lineConfig && lineConfig.stations[selectedValue]) {
+                    if (!dir1TimesEl.hasChildNodes() && !dir2TimesEl.hasChildNodes()) { 
+                        if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="loading-text text-sm">Loading train times...</li>';
+                        if(dir2TimesEl) dir2TimesEl.innerHTML = '';
+                    }
                     apiTrainData = await fetchTrainSchedule(selectedLineValue, selectedValue);
                     dir1DisplayHeader = lineConfig.endpoint1NameForDisplay; 
                     dir2DisplayHeader = lineConfig.endpoint2NameForDisplay;
@@ -710,15 +832,13 @@
             }
 
             const dir1NameEl = document.getElementById(`${type}-direction1-name`);
-            const dir1TimesEl = document.getElementById(`${type}-direction1-times`);
             const dir2NameEl = document.getElementById(`${type}-direction2-name`);
-            const dir2TimesEl = document.getElementById(`${type}-direction2-times`);
 
             if (dir1NameEl) dir1NameEl.textContent = dir1DisplayHeader;
             if (dir2NameEl) dir2NameEl.textContent = dir2DisplayHeader;
             
             const renderArrivalsFromAPI = (apiData, targetEl, targetDestCodeOrCodes) => {
-                targetEl.innerHTML = '';
+                targetEl.innerHTML = ''; 
                 let arrivalsForThisDisplayDirection = [];
 
                 const processDirection = (directionArray) => { 
@@ -743,22 +863,20 @@
 
                 if (arrivalsForThisDisplayDirection.length > 0) {
                     let count = 0;
-                    for (const train of arrivalsForThisDisplayDirection) {
-                         if (count < 3) {
+                    arrivalsForThisDisplayDirection.forEach((train, index) => {
+                        if (count < 3) {
                             const li = document.createElement('li');
-                            li.className = 'py-1.5 text-sm flex justify-between items-center w-full';
+                            li.className = 'py-1.5 flex justify-between items-center w-full';
                             const arrivalTime = new Date(train.time);
                             const displayTime = arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                             const minutesText = formatMinutesLeft(parseInt(train.ttnt));
-                            const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-blue-600 text-right';
-                            const destName = stationCodeToNameMap[train.dest] || train.dest; 
-                            li.innerHTML = `<span class="font-medium text-gray-700">${displayTime}</span> <span class="text-xs text-gray-500 mr-1">(to ${destName})</span> <span class="${waitingTimeClass}">${minutesText}</span>`;
+                            const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
+                            const timeClass = index === 0 ? 'font-semibold text-base text-gray-800' : 'font-medium text-sm text-gray-600'; 
+                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass}">${minutesText}</span>`;
                             targetEl.appendChild(li);
                             count++;
-                        } else {
-                            break; 
                         }
-                    }
+                    });
                      if (count === 0) { 
                          targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No valid upcoming trains for this direction.</li>';
                     }
@@ -775,13 +893,14 @@
                 if (!arrivals || arrivals.length === 0) {
                     targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No further services found.</li>';
                 } else {
-                    arrivals.forEach(arr => {
+                    arrivals.forEach((arr, index) => {
                         const li = document.createElement('li');
-                        li.className = 'py-1.5 text-sm flex justify-between items-center w-full'; 
+                        li.className = 'py-1.5 flex justify-between items-center w-full'; 
                         const minutesText = formatMinutesLeft(arr.minutesLeft);
-                        const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-blue-600 text-right'; 
+                        const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right'; 
                         const timeDisplayString = arr.time;
-                        li.innerHTML = `<span class="font-medium text-gray-700">${timeDisplayString}</span><span class="${waitingTimeClass}">${minutesText}</span>`;
+                        const timeClass = index === 0 ? 'font-semibold text-base text-gray-800' : 'font-medium text-sm text-gray-600'; 
+                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass}">${minutesText}</span>`;
                         targetEl.appendChild(li);
                     });
                 }
@@ -791,7 +910,7 @@
                 if (apiTrainData && lineConfig) {
                     renderArrivalsFromAPI(apiTrainData, dir1TimesEl, lineConfig.endpoint1ActualDestCode);
                     renderArrivalsFromAPI(apiTrainData, dir2TimesEl, lineConfig.endpoint2ActualDestCode);
-                } else {
+                } else if (!apiTrainData && (!dir1TimesEl.hasChildNodes() && !dir2TimesEl.hasChildNodes())) { 
                     if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
                     if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
                 }
@@ -807,32 +926,39 @@
         }
         
         function displayStaticBusSchedule(selectedRouteAndDirection, scheduleType) {
-            staticBusScheduleTableContainer.innerHTML = ''; 
+            const tableContainer = document.getElementById('static-bus-schedule-table-container');
+            const fixedHeaderEl = document.getElementById('static-schedule-fixed-header');
+            tableContainer.innerHTML = ''; 
 
             if (!selectedRouteAndDirection) {
-                staticBusScheduleTableContainer.innerHTML = '<p class="text-gray-500 text-base px-2 sm:px-3">Please select a route, direction, and schedule type.</p>';
+                tableContainer.innerHTML = '<p class="text-gray-500 text-base px-2 sm:px-3">Please select a route, direction, and schedule type.</p>';
+                if (fixedHeaderEl) fixedHeaderEl.style.display = 'none'; 
                 return;
             }
             if (!scheduleType) {
-                 staticBusScheduleTableContainer.innerHTML = '<p class="text-gray-500 text-base px-2 sm:px-3">Please select a schedule type.</p>';
+                 tableContainer.innerHTML = '<p class="text-gray-500 text-base px-2 sm:px-3">Please select a schedule type.</p>';
+                 if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
 
             const [actualRouteName, directionKeyFromValue] = selectedRouteAndDirection.split('__');
             
             if (!actualRouteName || !directionKeyFromValue) {
-                 staticBusScheduleTableContainer.innerHTML = '<p class="text-red-500 text-base px-2 sm:px-3">Invalid route selection.</p>';
+                 tableContainer.innerHTML = '<p class="text-red-500 text-base px-2 sm:px-3">Invalid route selection.</p>';
+                 if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
 
             const routeSchedules = mockSchedules.bus[actualRouteName];
             if (!routeSchedules) {
-                staticBusScheduleTableContainer.innerHTML = '<p class="text-red-600 text-base px-2 sm:px-3">Route data not found.</p>';
+                tableContainer.innerHTML = '<p class="text-red-600 text-base px-2 sm:px-3">Route data not found.</p>';
+                if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
             const scheduleDataForType = routeSchedules[scheduleType];
             if (!scheduleDataForType || !scheduleDataForType[directionKeyFromValue]) {
-                staticBusScheduleTableContainer.innerHTML = `<p class="text-red-600 text-base px-2 sm:px-3">No ${scheduleType.replace(/([A-Z])/g, ' $1').toLowerCase()} schedule found for this route and direction.</p>`;
+                tableContainer.innerHTML = `<p class="text-red-600 text-base px-2 sm:px-3">No ${scheduleType.replace(/([A-Z])/g, ' $1').toLowerCase()} schedule found for this route and direction.</p>`;
+                if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
             
@@ -852,25 +978,15 @@
             const sortedHours = Object.keys(hourlyTimes).sort((a, b) => parseInt(a) - parseInt(b));
 
             if (sortedHours.length === 0) { 
-                 staticBusScheduleTableContainer.innerHTML = `<p class="text-gray-500 text-base px-2 sm:px-3">No departures found for the selected criteria.</p>`;
+                 tableContainer.innerHTML = `<p class="text-gray-500 text-base px-2 sm:px-3">No departures found for the selected criteria.</p>`;
+                 if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
+            
+            if (fixedHeaderEl) fixedHeaderEl.style.display = 'flex'; 
 
             const table = document.createElement('table');
-            const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
-
-            const headerRow = document.createElement('tr');
-            const thHour = document.createElement('th');
-            thHour.textContent = 'Hour';
-            headerRow.appendChild(thHour);
-            
-            const thMinutes = document.createElement('th');
-            thMinutes.textContent = 'Minutes'; 
-            headerRow.appendChild(thMinutes);
-            
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
 
             sortedHours.forEach(hourStr => {
                 const tr = document.createElement('tr');
@@ -897,7 +1013,7 @@
             });
 
             table.appendChild(tbody);
-            staticBusScheduleTableContainer.appendChild(table);
+            tableContainer.appendChild(table);
         }
         
         function loadPreferences() {
@@ -939,12 +1055,21 @@
             }
         }
 
+        function showSettingsSavedMessage() {
+            settingsSavedMessageEl.classList.remove('hidden');
+            settingsSavedMessageEl.classList.add('show');
+            setTimeout(() => {
+                settingsSavedMessageEl.classList.remove('show');
+                setTimeout(() => settingsSavedMessageEl.classList.add('hidden'), 500); 
+            }, 2500);
+        }
+
+
         if(saveFavoriteBusButton) saveFavoriteBusButton.addEventListener('click', () => {
             const selectedFavBus = favoriteBusRouteSelect.value;
             localStorage.setItem('favoriteBusRoute', selectedFavBus);
             if (busRouteSelect && selectedFavBus && busRouteSelect.querySelector(`option[value="${selectedFavBus}"]`)) busRouteSelect.value = selectedFavBus;
-            settingsSavedMessageEl.textContent = 'Favorite bus route saved!';
-            setTimeout(() => settingsSavedMessageEl.textContent = '', 3000);
+            showSettingsSavedMessage();
             updateLiveSchedules(); 
         });
 
@@ -961,17 +1086,19 @@
                  trainLineSelect.value = trainLineSelect.options[0].value;
                  populateTrainStations(trainLineSelect, trainStationSelect, trainLineSelect.value, mtrApiConfig[trainLineSelect.value]?.defaultStationName || "");
             }
-
-            settingsSavedMessageEl.textContent = 'Favorite train preference saved!';
-            setTimeout(() => settingsSavedMessageEl.textContent = '', 3000);
+            showSettingsSavedMessage();
             updateLiveSchedules(); 
         });
         
         async function updateLiveSchedules() { 
             const now = new Date();
             const homePaneActive = document.getElementById('home-pane').classList.contains('active');
+            const schedulePaneActive = document.getElementById('schedule-pane').classList.contains('active');
 
-            if (homePaneActive) updateDateTimeDisplay(now);
+
+            if (homePaneActive) updateDateTimeDisplay(now, false);
+            if (schedulePaneActive) updateDateTimeDisplay(now, true);
+
 
             if (homePaneActive) {
                 const currentBusRoute = busRouteSelect.value;
@@ -1008,11 +1135,6 @@
                 }
 
                 if (currentTrainLine && currentTrainStation) {
-                    const trainDir1TimesEl = document.getElementById('train-direction1-times');
-                    const trainDir2TimesEl = document.getElementById('train-direction2-times');
-                    if(trainDir1TimesEl) trainDir1TimesEl.innerHTML = '<li class="loading-text text-sm">Loading train times...</li>';
-                    if(trainDir2TimesEl) trainDir2TimesEl.innerHTML = '';
-
                     await displayLiveSchedule('train', currentTrainStation, now, currentTrainLine);
                 } else { 
                     const dir1NameEl = document.getElementById(`train-direction1-name`);
@@ -1067,8 +1189,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             populateAllSelectors(); 
             loadPreferences();      
-            const homeButton = document.querySelector('button[data-tab="home"]');
-            if (homeButton) homeButton.classList.add('active');
+            
+            const firstTabButton = allTabButtons[0];
+            if (firstTabButton) {
+                 firstTabButton.classList.add('active');
+                 firstTabButton.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'var(--app-nav-icon-active-bg)';
+                 firstTabButton.querySelector('svg').style.stroke = 'var(--app-accent-color)';
+                 firstTabButton.querySelector('.nav-text').style.color = 'var(--app-text-active-color)';
+                 firstTabButton.querySelector('.nav-text').style.fontWeight = '500';
+            }
             const homePane = document.getElementById('home-pane');
             if (homePane) homePane.classList.add('active'); 
             
@@ -1077,13 +1206,19 @@
                     pane.classList.remove('active');
                 }
             });
+            const fixedHeader = document.getElementById('static-schedule-fixed-header');
+            if(fixedHeader) fixedHeader.style.display = 'none';
+
 
             updateLiveSchedules(); 
             setInterval(updateLiveSchedules, 30000); 
             setInterval(() => {
+                const now = new Date();
                 if (document.getElementById('home-pane').classList.contains('active')) {
-                    const now = new Date();
-                    updateDateTimeDisplay(now);
+                    updateDateTimeDisplay(now, false);
+                }
+                if (document.getElementById('schedule-pane').classList.contains('active')) {
+                    updateDateTimeDisplay(now, true);
                 }
             }, 1000);
         });

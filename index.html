@@ -12,10 +12,10 @@
             --app-accent-color-darker: #3A6B73;
             --app-nav-background: #eff5f6;
             --app-nav-icon-active-bg: #CDE2F0; 
-            --app-icon-active-color: white; /* White icon on light blue circle */
-            --app-icon-inactive-color: #6B7280; /* gray-500 */
-            --app-text-active-color: var(--app-accent-color); /* Accent color for active text */
-            --app-text-inactive-color: #6B7280; /* gray-500 */
+            --app-icon-active-color: white; 
+            --app-icon-inactive-color: #6B7280; 
+            --app-text-active-color: var(--app-accent-color); 
+            --app-text-inactive-color: #6B7280; 
         }
 
         body {
@@ -33,20 +33,17 @@
         main {
             flex-grow: 1; 
             overflow-y: auto; 
-            /* Consistent padding for all tab content areas */
-            padding: 0.75rem; /* p-3 */
+            padding: 0.75rem; 
         }
-        @media (min-width: 640px) { /* sm breakpoint */
+        @media (min-width: 640px) {
             main {
-                padding: 1rem; /* sm:p-4 */
+                padding: 1rem; 
             }
         }
 
-        /* Ensure schedule pane and its card take up available height */
         .content-pane#schedule-pane.active { 
             display: flex; 
             flex-direction: column;
-            /* height: calc(100% - 0px); No longer needed if cards dictate height */
         }
         .content-pane#schedule-pane.active > .schedule-content-wrapper { 
             display: flex;
@@ -86,7 +83,7 @@
             border-radius: 6px; 
             color: #333333;
             font-weight: 400;
-            font-size: 0.875rem; /* text-sm */
+            font-size: 0.75rem; /* text-xs */
         }
         select:focus {
             outline: none;
@@ -100,19 +97,19 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 6px; /* Reduced top padding */
+            padding-top: 6px; 
             padding-bottom: 4px;
             flex: 1;
             transition: color 0.2s ease-in-out;
         }
         .bottom-nav-icon-wrapper {
-            width: 56px; /* Width for the pill/circle */
-            height: 32px; /* Height for the pill/circle */
+            width: 56px; 
+            height: 32px; 
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 16px; /* Pill shape */
-            margin-bottom: 1px; /* Reduced space */
+            border-radius: 16px; 
+            margin-bottom: 1px; 
             transition: background-color 0.2s ease-in-out;
         }
         .bottom-nav-button svg {
@@ -135,7 +132,7 @@
         }
         .bottom-nav-button.active .nav-text {
             color: var(--app-text-active-color); 
-            font-weight: 600; /* semibold for more prominence */
+            font-weight: 600; 
         }
         
         .content-pane {
@@ -151,20 +148,22 @@
         .static-schedule-header-fixed {
             display: flex;
             justify-content: space-between;
-            padding: 8px 8px 4px 8px; 
+            padding: 6px 8px 3px 8px; 
             background-color: #f0f0f0; 
             border-bottom: 1px solid #dddddd;
             font-weight: 500;
-            font-size: 0.875rem; 
-            /* position: sticky; top: 0; z-index: 20; -- Applied by JS if needed, or directly if parent is scrollable */
+            font-size: 0.75rem; 
+            position: sticky; 
+            top: 0;
+            z-index: 20; 
         }
         .static-schedule-header-fixed .hour-header {
-            width: 25%; 
+            width: 30%; 
             text-align: left;
             padding-left: 0.75rem; 
         }
         .static-schedule-header-fixed .minutes-header {
-            width: 75%; 
+            width: 70%; 
             text-align: left;
         }
 
@@ -174,7 +173,7 @@
         }
         .static-schedule-table td { 
             border-bottom: 1px solid #eeeeee;
-            padding: 5px 8px; 
+            padding: 4px 8px; 
             text-align: left;
             font-weight: 400;
             vertical-align: top; 
@@ -183,18 +182,18 @@
             font-weight: 600; 
             text-align: left; 
             padding-left: 0.75rem; 
-            font-size: 0.875rem; 
-            width: 25%; 
+            font-size: 0.75rem; 
+            width: 30%; 
         }
         .static-schedule-table td.minutes-cell {
-            font-size: 0.875rem; 
-            line-height: 1.6; 
-            width: 75%; 
+            font-size: 0.75rem; 
+            line-height: 1.5; 
+            width: 70%; 
         }
         .static-schedule-table .minute-item {
             display: inline-block;
-            margin-right: 5px; 
-            margin-bottom: 2px;
+            margin-right: 4px; 
+            margin-bottom: 1px;
         }
         .static-schedule-table tr:last-child td {
             border-bottom: none;
@@ -236,11 +235,11 @@
             width: 100%; 
         }
         .schedule-type-segment {
-            padding: 0.4rem 0.75rem; 
+            padding: 0.35rem 0.75rem; 
             border-radius: 6px; 
             background-color: transparent;
             color: #495057; 
-            font-size: 0.875rem; 
+            font-size: 0.75rem; 
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.25s cubic-bezier(0.4,0,0.2,1), color 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1);
@@ -284,39 +283,39 @@
             <div id="home-pane" class="content-pane">
                 <div id="time-card" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4">
                     <div id="current-time" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
-                    <div id="current-day-date" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
+                    <div id="current-day-date" class="text-xs text-gray-500 mt-0.5">----------, ---------- --, ----</div>
                 </div>
                 <div class="grid grid-cols-1 gap-3 sm:gap-4">
                     <div id="bus-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
-                        <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-2.5">Park Island Departures</h2>
-                        <select id="bus-route-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
+                        <h2 class="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-2.5">Park Island Departures</h2>
+                        <select id="bus-route-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-xs"></select>
                         <div id="bus-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
                             <div class="w-1/2 flex flex-col">
-                                <h3 id="bus-direction1-name" class="text-sm font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
+                                <h3 id="bus-direction1-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="bus-direction1-times" class="space-y-1 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
+                                <ul id="bus-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
                             </div>
                             <div class="w-1/2 flex flex-col"> 
-                                <h3 id="bus-direction2-name" class="text-sm font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
+                                <h3 id="bus-direction2-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="bus-direction2-times" class="space-y-1 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
+                                <ul id="bus-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
                             </div>
                         </div>
                     </div>
                     <div id="train-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
-                        <h2 class="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-2.5">Train Departures</h2>
-                        <select id="train-line-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 text-sm"></select>
-                        <select id="train-station-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
+                        <h2 class="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-2.5">Train Departures</h2>
+                        <select id="train-line-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 text-xs"></select>
+                        <select id="train-station-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-xs"></select>
                         <div id="train-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
                             <div class="w-1/2 flex flex-col">
-                                <h3 id="train-direction1-name" class="text-sm font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
+                                <h3 id="train-direction1-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="train-direction1-times" class="space-y-1 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-sm">Loading...</li></ul>
+                                <ul id="train-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-xs">Loading...</li></ul>
                             </div>
                             <div class="w-1/2 flex flex-col"> 
-                                <h3 id="train-direction2-name" class="text-sm font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
+                                <h3 id="train-direction2-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="train-direction2-times" class="space-y-1 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-sm">Loading...</li></ul>
+                                <ul id="train-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-xs">Loading...</li></ul>
                             </div>
                         </div>
                     </div>
@@ -324,13 +323,13 @@
             </div>
 
             <div id="schedule-pane" class="content-pane">
-                <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
+                 <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
                     <div id="current-time-schedule" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
-                    <div id="current-day-date-schedule" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
+                    <div id="current-day-date-schedule" class="text-xs text-gray-500 mt-0.5">----------, ---------- --, ----</div>
                 </div>
                 <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col schedule-content-wrapper"> 
-                    <h2 class="text-base sm:text-xl font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
-                    <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-sm flex-shrink-0">
+                    <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
+                    <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-xs flex-shrink-0">
                         <option value="">Select a Route and Direction</option> 
                     </select>
                     <div id="schedule-type-selector-container" class="segmented-control-container mb-4 flex-shrink-0"> 
@@ -343,7 +342,7 @@
                         <div class="minutes-header">Minutes</div>
                     </div>
                     <div id="static-bus-schedule-table-container" class="static-schedule-table overflow-auto flex-grow">
-                        <p class="text-gray-500 text-base px-2 sm:px-3">Please select a route, direction, and schedule type.</p>
+                        <p class="text-gray-500 text-sm px-2 sm:px-3">Please select a route, direction, and schedule type.</p>
                     </div>
                 </div>
             </div>
@@ -351,22 +350,22 @@
             <div id="settings-pane" class="content-pane">
                 <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 relative"> 
                     <p id="settings-saved-message" class="hidden">Settings saved!</p>
-                    <h2 class="text-base sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6">Settings</h2>
+                    <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-4 sm:mb-6">Settings</h2>
                     <div class="space-y-5">
                         <div>
-                            <label for="favorite-bus-route-select" class="block text-sm font-medium text-gray-700 mb-1.5">Favorite Park Island Route</label>
-                            <select id="favorite-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
+                            <label for="favorite-bus-route-select" class="block text-xs font-medium text-gray-700 mb-1.5">Favorite Park Island Route</label>
+                            <select id="favorite-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg text-xs">
                                 <option value="">None</option>
                             </select>
                             <button id="save-favorite-bus" class="button-ive mt-2.5 px-4 text-sm">Save Route Preference</button>
                         </div>
                         <div>
-                            <label for="favorite-train-line-select" class="block text-sm font-medium text-gray-700 mb-1.5">Favorite Train Line</label>
-                            <select id="favorite-train-line-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
+                            <label for="favorite-train-line-select" class="block text-xs font-medium text-gray-700 mb-1.5">Favorite Train Line</label>
+                            <select id="favorite-train-line-select" class="w-full p-2 sm:p-3 border rounded-lg text-xs">
                                 <option value="">None</option>
                             </select>
-                             <label for="favorite-train-station-select" class="block text-sm font-medium text-gray-700 mb-1.5 mt-3">Favorite Station on this Line</label>
-                            <select id="favorite-train-station-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
+                             <label for="favorite-train-station-select" class="block text-xs font-medium text-gray-700 mb-1.5 mt-3">Favorite Station on this Line</label>
+                            <select id="favorite-train-station-select" class="w-full p-2 sm:p-3 border rounded-lg text-xs">
                                 <option value="">None</option>
                             </select>
                             <button id="save-favorite-train" class="button-ive mt-2.5 px-4 text-sm">Save Train Preference</button>
@@ -374,9 +373,9 @@
                     </div>
                     
                     <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h3 class="text-base sm:text-lg font-medium text-gray-700 mb-2">About This App</h3>
-                        <p class="text-gray-600 text-base leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-sm">Version: 5.5.7 "Ive - Google Nav Style"</p>
+                        <h3 class="text-sm sm:text-base font-medium text-gray-700 mb-2">About This App</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
+                        <p class="text-gray-600 mt-2 text-xs">Version: 5.5.8 "Ive - Compact Text"</p>
                     </div>
                 </div>
             </div>
@@ -554,17 +553,27 @@
                 
                 allTabButtons.forEach(btn => {
                     btn.classList.remove('active');
-                    btn.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'transparent';
-                    btn.querySelector('svg').style.stroke = 'var(--app-icon-inactive-color)';
-                    btn.querySelector('.nav-text').style.color = 'var(--app-text-inactive-color)';
-                    btn.querySelector('.nav-text').style.fontWeight = 'normal';
+                    const iconWrapper = btn.querySelector('.bottom-nav-icon-wrapper');
+                    if (iconWrapper) iconWrapper.style.backgroundColor = 'transparent';
+                    const svgIcon = btn.querySelector('svg');
+                    if (svgIcon) svgIcon.style.stroke = 'var(--app-icon-inactive-color)';
+                    const navText = btn.querySelector('.nav-text');
+                    if (navText) {
+                        navText.style.color = 'var(--app-text-inactive-color)';
+                        navText.style.fontWeight = 'normal';
+                    }
                 });
 
                 button.classList.add('active');
-                button.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'var(--app-nav-icon-active-bg)';
-                button.querySelector('svg').style.stroke = 'var(--app-accent-color)';
-                button.querySelector('.nav-text').style.color = 'var(--app-text-active-color)';
-                button.querySelector('.nav-text').style.fontWeight = '600';
+                const activeIconWrapper = button.querySelector('.bottom-nav-icon-wrapper');
+                if (activeIconWrapper) activeIconWrapper.style.backgroundColor = 'var(--app-nav-icon-active-bg)';
+                const activeSvgIcon = button.querySelector('svg');
+                if (activeSvgIcon) activeSvgIcon.style.stroke = 'var(--app-accent-color)';
+                const activeNavText = button.querySelector('.nav-text');
+                if (activeNavText) {
+                    activeNavText.style.color = 'var(--app-text-active-color)';
+                    activeNavText.style.fontWeight = '600';
+                }
                 
                 contentPanes.forEach(pane => {
                     pane.classList.remove('active');
@@ -826,7 +835,7 @@
                 lineConfig = mtrApiConfig[selectedLineValue];
                 if (lineConfig && lineConfig.stations[selectedValue]) {
                     if (!dir1TimesEl.hasChildNodes() && !dir2TimesEl.hasChildNodes()) { 
-                        if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="loading-text text-sm">Loading train times...</li>';
+                        if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="loading-text text-xs">Loading train times...</li>';
                         if(dir2TimesEl) dir2TimesEl.innerHTML = '';
                     }
                     apiTrainData = await fetchTrainSchedule(selectedLineValue, selectedValue);
@@ -875,28 +884,28 @@
                             const displayTime = arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
                             const minutesText = formatMinutesLeft(parseInt(train.ttnt));
                             const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
-                            const timeClass = index === 0 ? 'font-semibold text-base text-gray-800' : 'font-medium text-sm text-gray-600'; 
+                            const timeClass = index === 0 ? 'font-semibold text-sm text-gray-800' : 'font-medium text-xs text-gray-600'; 
                             const waitingTimeBoldClass = index === 0 ? 'font-semibold' : '';
-                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass} ${waitingTimeBoldClass}">${minutesText}</span>`;
+                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass} ${waitingTimeBoldClass} ${index > 0 ? 'text-xs' : 'text-sm'}">${minutesText}</span>`;
                             targetEl.appendChild(li);
                             count++;
                         }
                     });
                      if (count === 0) { 
-                         targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No valid upcoming trains for this direction.</li>';
+                         targetEl.innerHTML = '<li class="italic text-gray-500 text-xs">No valid upcoming trains for this direction.</li>';
                     }
                 } else if (apiData && apiData.specialMessage) {
-                     targetEl.innerHTML = `<li class="italic text-orange-600 text-sm">${apiData.specialMessage}</li>`;
+                     targetEl.innerHTML = `<li class="italic text-orange-600 text-xs">${apiData.specialMessage}</li>`;
                 }
                  else {
-                    targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No services for this direction.</li>';
+                    targetEl.innerHTML = '<li class="italic text-gray-500 text-xs">No services for this direction.</li>';
                 }
             };
 
             const renderArrivalsFromMock = (arrivals, targetEl) => {
                 targetEl.innerHTML = '';
                 if (!arrivals || arrivals.length === 0) {
-                    targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No further services found.</li>';
+                    targetEl.innerHTML = '<li class="italic text-gray-500 text-xs">No further services found.</li>';
                 } else {
                     arrivals.forEach((arr, index) => {
                         const li = document.createElement('li');
@@ -904,9 +913,9 @@
                         const minutesText = formatMinutesLeft(arr.minutesLeft);
                         const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right'; 
                         const timeDisplayString = arr.time;
-                        const timeClass = index === 0 ? 'font-semibold text-base text-gray-800' : 'font-medium text-sm text-gray-600'; 
+                        const timeClass = index === 0 ? 'font-semibold text-sm text-gray-800' : 'font-medium text-xs text-gray-600'; 
                         const waitingTimeBoldClass = index === 0 ? 'font-semibold' : '';
-                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass} ${waitingTimeBoldClass}">${minutesText}</span>`;
+                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass} ${waitingTimeBoldClass} ${index > 0 ? 'text-xs' : 'text-sm'}">${minutesText}</span>`;
                         targetEl.appendChild(li);
                     });
                 }
@@ -917,13 +926,13 @@
                     renderArrivalsFromAPI(apiTrainData, dir1TimesEl, lineConfig.endpoint1ActualDestCode);
                     renderArrivalsFromAPI(apiTrainData, dir2TimesEl, lineConfig.endpoint2ActualDestCode);
                 } else if (!apiTrainData && (!dir1TimesEl.hasChildNodes() && !dir2TimesEl.hasChildNodes())) { 
-                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
-                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
+                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">Could not load schedule.</li>';
+                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">Could not load schedule.</li>';
                 }
             } else { 
                 if (!scheduleData || !scheduleData.direction1Times || !scheduleData.direction2Times) { 
-                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">No data available.</li>';
-                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">No data available.</li>';
+                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">No data available.</li>';
+                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">No data available.</li>';
                     return;
                 }
                 if (dir1TimesEl) renderArrivalsFromMock(getNextArrivals(scheduleData.direction1Times, now, selectedValue, 'direction1Times', currentDayTypeForBusRoute), dir1TimesEl);
@@ -937,12 +946,12 @@
             tableContainer.innerHTML = ''; 
 
             if (!selectedRouteAndDirection) {
-                tableContainer.innerHTML = '<p class="text-gray-500 text-base px-2 sm:px-3">Please select a route, direction, and schedule type.</p>';
+                tableContainer.innerHTML = '<p class="text-gray-500 text-sm px-2 sm:px-3">Please select a route, direction, and schedule type.</p>';
                 if (fixedHeaderEl) fixedHeaderEl.style.display = 'none'; 
                 return;
             }
             if (!scheduleType) {
-                 tableContainer.innerHTML = '<p class="text-gray-500 text-base px-2 sm:px-3">Please select a schedule type.</p>';
+                 tableContainer.innerHTML = '<p class="text-gray-500 text-sm px-2 sm:px-3">Please select a schedule type.</p>';
                  if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
@@ -950,20 +959,20 @@
             const [actualRouteName, directionKeyFromValue] = selectedRouteAndDirection.split('__');
             
             if (!actualRouteName || !directionKeyFromValue) {
-                 tableContainer.innerHTML = '<p class="text-red-500 text-base px-2 sm:px-3">Invalid route selection.</p>';
+                 tableContainer.innerHTML = '<p class="text-red-500 text-sm px-2 sm:px-3">Invalid route selection.</p>';
                  if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
 
             const routeSchedules = mockSchedules.bus[actualRouteName];
             if (!routeSchedules) {
-                tableContainer.innerHTML = '<p class="text-red-600 text-base px-2 sm:px-3">Route data not found.</p>';
+                tableContainer.innerHTML = '<p class="text-red-600 text-sm px-2 sm:px-3">Route data not found.</p>';
                 if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
             const scheduleDataForType = routeSchedules[scheduleType];
             if (!scheduleDataForType || !scheduleDataForType[directionKeyFromValue]) {
-                tableContainer.innerHTML = `<p class="text-red-600 text-base px-2 sm:px-3">No ${scheduleType.replace(/([A-Z])/g, ' $1').toLowerCase()} schedule found for this route and direction.</p>`;
+                tableContainer.innerHTML = `<p class="text-red-600 text-sm px-2 sm:px-3">No ${scheduleType.replace(/([A-Z])/g, ' $1').toLowerCase()} schedule found for this route and direction.</p>`;
                 if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
@@ -984,7 +993,7 @@
             const sortedHours = Object.keys(hourlyTimes).sort((a, b) => parseInt(a) - parseInt(b));
 
             if (sortedHours.length === 0) { 
-                 tableContainer.innerHTML = `<p class="text-gray-500 text-base px-2 sm:px-3">No departures found for the selected criteria.</p>`;
+                 tableContainer.innerHTML = `<p class="text-gray-500 text-sm px-2 sm:px-3">No departures found for the selected criteria.</p>`;
                  if (fixedHeaderEl) fixedHeaderEl.style.display = 'none';
                 return;
             }
@@ -1149,7 +1158,7 @@
                     const dir2TimesEl = document.getElementById(`train-direction2-times`);
                     if(dir1NameEl) dir1NameEl.textContent = 'Direction 1';
                     if(dir2NameEl) dir2NameEl.textContent = 'Direction 2';
-                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Select line & station.</li>';
+                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">Select line & station.</li>';
                     if(dir2TimesEl) dir2TimesEl.innerHTML = '';
                 }
             }
@@ -1199,10 +1208,15 @@
             const firstTabButton = allTabButtons[0];
             if (firstTabButton) {
                  firstTabButton.classList.add('active');
-                 firstTabButton.querySelector('.bottom-nav-icon-wrapper').style.backgroundColor = 'var(--app-nav-icon-active-bg)';
-                 firstTabButton.querySelector('svg').style.stroke = 'var(--app-accent-color)';
-                 firstTabButton.querySelector('.nav-text').style.color = 'var(--app-text-active-color)';
-                 firstTabButton.querySelector('.nav-text').style.fontWeight = '600';
+                 const iconWrapper = firstTabButton.querySelector('.bottom-nav-icon-wrapper');
+                 if(iconWrapper) iconWrapper.style.backgroundColor = 'var(--app-nav-icon-active-bg)';
+                 const svgIcon = firstTabButton.querySelector('svg');
+                 if(svgIcon) svgIcon.style.stroke = 'var(--app-accent-color)';
+                 const navText = firstTabButton.querySelector('.nav-text');
+                 if(navText) {
+                    navText.style.color = 'var(--app-text-active-color)';
+                    navText.style.fontWeight = '600';
+                 }
             }
             const homePane = document.getElementById('home-pane');
             if (homePane) homePane.classList.add('active'); 

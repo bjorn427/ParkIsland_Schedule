@@ -16,6 +16,7 @@
             --app-icon-inactive-color: #6B7280; 
             --app-text-active-color: var(--app-accent-color); 
             --app-text-inactive-color: #6B7280; 
+            --app-select-background: #eff5f6; 
         }
 
         body {
@@ -78,17 +79,17 @@
             background-position: right 0.5rem center;
             background-size: 10px auto;
             padding-right: 2rem; 
-            border: 1px solid #e0e0e0; 
-            background-color: #ffffff;
+            border: 1px solid #d1d5db; 
+            background-color: var(--app-select-background); 
             border-radius: 6px; 
             color: #333333;
-            font-weight: 400;
-            font-size: 0.75rem; /* text-xs */
+            font-weight: 400; /* Default weight, can be overridden by Tailwind */
+            font-size: 0.875rem; /* text-sm, changed from 0.75rem */
         }
         select:focus {
             outline: none;
-            border-color: #aaaaaa; 
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05); 
+            border-color: var(--app-accent-color); 
+            box-shadow: 0 0 0 2px rgba(73, 129, 137, 0.2); 
         }
 
         .bottom-nav-button {
@@ -288,15 +289,15 @@
                 <div class="grid grid-cols-1 gap-3 sm:gap-4">
                     <div id="bus-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
                         <h2 class="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-2.5">Park Island Departures</h2>
-                        <select id="bus-route-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-xs"></select>
+                        <select id="bus-route-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
                         <div id="bus-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
                             <div class="w-1/2 flex flex-col">
-                                <h3 id="bus-direction1-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
+                                <h3 id="bus-direction1-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
                                 <ul id="bus-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
                             </div>
                             <div class="w-1/2 flex flex-col"> 
-                                <h3 id="bus-direction2-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
+                                <h3 id="bus-direction2-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
                                 <ul id="bus-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
                             </div>
@@ -304,16 +305,16 @@
                     </div>
                     <div id="train-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
                         <h2 class="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-2.5">Train Departures</h2>
-                        <select id="train-line-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 text-xs"></select>
-                        <select id="train-station-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-xs"></select>
+                        <select id="train-line-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 text-sm"></select>
+                        <select id="train-station-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
                         <div id="train-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
                             <div class="w-1/2 flex flex-col">
-                                <h3 id="train-direction1-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
+                                <h3 id="train-direction1-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
                                 <ul id="train-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-xs">Loading...</li></ul>
                             </div>
                             <div class="w-1/2 flex flex-col"> 
-                                <h3 id="train-direction2-name" class="text-xs font-medium text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
+                                <h3 id="train-direction2-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
                                 <ul id="train-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-xs">Loading...</li></ul>
                             </div>
@@ -329,7 +330,7 @@
                 </div>
                 <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col schedule-content-wrapper"> 
                     <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
-                    <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-xs flex-shrink-0">
+                    <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-sm flex-shrink-0">
                         <option value="">Select a Route and Direction</option> 
                     </select>
                     <div id="schedule-type-selector-container" class="segmented-control-container mb-4 flex-shrink-0"> 
@@ -354,18 +355,18 @@
                     <div class="space-y-5">
                         <div>
                             <label for="favorite-bus-route-select" class="block text-xs font-medium text-gray-700 mb-1.5">Favorite Park Island Route</label>
-                            <select id="favorite-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg text-xs">
+                            <select id="favorite-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
                                 <option value="">None</option>
                             </select>
                             <button id="save-favorite-bus" class="button-ive mt-2.5 px-4 text-sm">Save Route Preference</button>
                         </div>
                         <div>
                             <label for="favorite-train-line-select" class="block text-xs font-medium text-gray-700 mb-1.5">Favorite Train Line</label>
-                            <select id="favorite-train-line-select" class="w-full p-2 sm:p-3 border rounded-lg text-xs">
+                            <select id="favorite-train-line-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
                                 <option value="">None</option>
                             </select>
                              <label for="favorite-train-station-select" class="block text-xs font-medium text-gray-700 mb-1.5 mt-3">Favorite Station on this Line</label>
-                            <select id="favorite-train-station-select" class="w-full p-2 sm:p-3 border rounded-lg text-xs">
+                            <select id="favorite-train-station-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
                                 <option value="">None</option>
                             </select>
                             <button id="save-favorite-train" class="button-ive mt-2.5 px-4 text-sm">Save Train Preference</button>
@@ -375,7 +376,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h3 class="text-sm sm:text-base font-medium text-gray-700 mb-2">About This App</h3>
                         <p class="text-gray-600 text-sm leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-xs">Version: 5.5.8 "Ive - Compact Text"</p>
+                        <p class="text-gray-600 mt-2 text-xs">Version: 5.5.9 "Ive - Selector Font Size"</p>
                     </div>
                 </div>
             </div>
@@ -883,10 +884,15 @@
                             const arrivalTime = new Date(train.time);
                             const displayTime = arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
                             const minutesText = formatMinutesLeft(parseInt(train.ttnt));
-                            const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
-                            const timeClass = index === 0 ? 'font-semibold text-sm text-gray-800' : 'font-medium text-xs text-gray-600'; 
-                            const waitingTimeBoldClass = index === 0 ? 'font-semibold' : '';
-                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass} ${waitingTimeBoldClass} ${index > 0 ? 'text-xs' : 'text-sm'}">${minutesText}</span>`;
+                            
+                            const isFirstItem = index === 0;
+                            const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-xs text-gray-500'; 
+                            const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-500 text-right';
+                            const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-xs';
+                            const waitingTimeBoldClass = isFirstItem ? 'font-semibold' : '';
+                            const waitingTimeColorClass = isFirstItem && minutesText !== 'Now!' ? 'text-[var(--app-accent-color)]' : '';
+
+                            li.innerHTML = `<span class="${timeClass}">${displayTime}</span> <span class="${waitingTimeClass} ${waitingTimeBoldClass} ${waitingTimeSizeClass} ${waitingTimeColorClass}">${minutesText}</span>`;
                             targetEl.appendChild(li);
                             count++;
                         }
@@ -911,11 +917,16 @@
                         const li = document.createElement('li');
                         li.className = 'py-1.5 flex justify-between items-center w-full'; 
                         const minutesText = formatMinutesLeft(arr.minutesLeft);
-                        const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right'; 
+                        
+                        const isFirstItem = index === 0;
+                        const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-xs text-gray-500'; 
+                        const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
+                        const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-xs';
+                        const waitingTimeBoldClass = isFirstItem ? 'font-semibold' : '';
+                        const waitingTimeColorClass = isFirstItem && minutesText !== 'Now!' ? 'text-[var(--app-accent-color)]' : '';
+
                         const timeDisplayString = arr.time;
-                        const timeClass = index === 0 ? 'font-semibold text-sm text-gray-800' : 'font-medium text-xs text-gray-600'; 
-                        const waitingTimeBoldClass = index === 0 ? 'font-semibold' : '';
-                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass} ${waitingTimeBoldClass} ${index > 0 ? 'text-xs' : 'text-sm'}">${minutesText}</span>`;
+                        li.innerHTML = `<span class="${timeClass}">${timeDisplayString}</span><span class="${waitingTimeClass} ${waitingTimeBoldClass} ${waitingTimeSizeClass} ${waitingTimeColorClass}">${minutesText}</span>`;
                         targetEl.appendChild(li);
                     });
                 }

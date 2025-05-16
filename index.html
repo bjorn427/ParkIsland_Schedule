@@ -284,7 +284,7 @@
             <div id="home-pane" class="content-pane">
                 <div id="time-card" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4">
                     <div id="current-time" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
-                    <div id="current-day-date" class="text-xs text-gray-500 mt-0.5">----------, ---------- --, ----</div>
+                    <div id="current-day-date" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
                 </div>
                 <div class="grid grid-cols-1 gap-3 sm:gap-4">
                     <div id="bus-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
@@ -311,12 +311,12 @@
                             <div class="w-1/2 flex flex-col">
                                 <h3 id="train-direction1-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="train-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-xs">Loading...</li></ul>
+                                <ul id="train-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-sm">Loading...</li></ul>
                             </div>
                             <div class="w-1/2 flex flex-col"> 
                                 <h3 id="train-direction2-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
                                 <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="train-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-xs">Loading...</li></ul>
+                                <ul id="train-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-sm">Loading...</li></ul>
                             </div>
                         </div>
                     </div>
@@ -326,7 +326,7 @@
             <div id="schedule-pane" class="content-pane">
                  <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
                     <div id="current-time-schedule" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
-                    <div id="current-day-date-schedule" class="text-xs text-gray-500 mt-0.5">----------, ---------- --, ----</div>
+                    <div id="current-day-date-schedule" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
                 </div>
                 <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col schedule-content-wrapper"> 
                     <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
@@ -354,18 +354,18 @@
                     <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-4 sm:mb-6">Settings</h2>
                     <div class="space-y-5">
                         <div>
-                            <label for="favorite-bus-route-select" class="block text-xs font-medium text-gray-700 mb-1.5">Favorite Park Island Route</label>
+                            <label for="favorite-bus-route-select" class="block text-sm font-medium text-gray-700 mb-1.5">Favorite Park Island Route</label>
                             <select id="favorite-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
                                 <option value="">None</option>
                             </select>
                             <button id="save-favorite-bus" class="button-ive mt-2.5 px-4 text-sm">Save Route Preference</button>
                         </div>
                         <div>
-                            <label for="favorite-train-line-select" class="block text-xs font-medium text-gray-700 mb-1.5">Favorite Train Line</label>
+                            <label for="favorite-train-line-select" class="block text-sm font-medium text-gray-700 mb-1.5">Favorite Train Line</label>
                             <select id="favorite-train-line-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
                                 <option value="">None</option>
                             </select>
-                             <label for="favorite-train-station-select" class="block text-xs font-medium text-gray-700 mb-1.5 mt-3">Favorite Station on this Line</label>
+                             <label for="favorite-train-station-select" class="block text-sm font-medium text-gray-700 mb-1.5 mt-3">Favorite Station on this Line</label>
                             <select id="favorite-train-station-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
                                 <option value="">None</option>
                             </select>
@@ -376,7 +376,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h3 class="text-sm sm:text-base font-medium text-gray-700 mb-2">About This App</h3>
                         <p class="text-gray-600 text-sm leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-xs">Version: 5.5.9 "Ive - Selector Font Size"</p>
+                        <p class="text-gray-600 mt-2 text-sm">Version: 5.5.9 "Ive - Selector Font Size"</p>
                     </div>
                 </div>
             </div>
@@ -836,7 +836,7 @@
                 lineConfig = mtrApiConfig[selectedLineValue];
                 if (lineConfig && lineConfig.stations[selectedValue]) {
                     if (!dir1TimesEl.hasChildNodes() && !dir2TimesEl.hasChildNodes()) { 
-                        if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="loading-text text-xs">Loading train times...</li>';
+                        if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="loading-text text-sm">Loading train times...</li>';
                         if(dir2TimesEl) dir2TimesEl.innerHTML = '';
                     }
                     apiTrainData = await fetchTrainSchedule(selectedLineValue, selectedValue);
@@ -886,9 +886,9 @@
                             const minutesText = formatMinutesLeft(parseInt(train.ttnt));
                             
                             const isFirstItem = index === 0;
-                            const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-xs text-gray-500'; 
+                            const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-sm text-gray-500'; 
                             const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-500 text-right';
-                            const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-xs';
+                            const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-sm';
                             const waitingTimeBoldClass = isFirstItem ? 'font-semibold' : '';
                             const waitingTimeColorClass = isFirstItem && minutesText !== 'Now!' ? 'text-[var(--app-accent-color)]' : '';
 
@@ -898,20 +898,20 @@
                         }
                     });
                      if (count === 0) { 
-                         targetEl.innerHTML = '<li class="italic text-gray-500 text-xs">No valid upcoming trains for this direction.</li>';
+                         targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No valid upcoming trains for this direction.</li>';
                     }
                 } else if (apiData && apiData.specialMessage) {
-                     targetEl.innerHTML = `<li class="italic text-orange-600 text-xs">${apiData.specialMessage}</li>`;
+                     targetEl.innerHTML = `<li class="italic text-orange-600 text-sm">${apiData.specialMessage}</li>`;
                 }
                  else {
-                    targetEl.innerHTML = '<li class="italic text-gray-500 text-xs">No services for this direction.</li>';
+                    targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No services for this direction.</li>';
                 }
             };
 
             const renderArrivalsFromMock = (arrivals, targetEl) => {
                 targetEl.innerHTML = '';
                 if (!arrivals || arrivals.length === 0) {
-                    targetEl.innerHTML = '<li class="italic text-gray-500 text-xs">No further services found.</li>';
+                    targetEl.innerHTML = '<li class="italic text-gray-500 text-sm">No further services found.</li>';
                 } else {
                     arrivals.forEach((arr, index) => {
                         const li = document.createElement('li');
@@ -919,9 +919,9 @@
                         const minutesText = formatMinutesLeft(arr.minutesLeft);
                         
                         const isFirstItem = index === 0;
-                        const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-xs text-gray-500'; 
+                        const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-sm text-gray-500'; 
                         const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
-                        const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-xs';
+                        const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-sm';
                         const waitingTimeBoldClass = isFirstItem ? 'font-semibold' : '';
                         const waitingTimeColorClass = isFirstItem && minutesText !== 'Now!' ? 'text-[var(--app-accent-color)]' : '';
 
@@ -937,13 +937,13 @@
                     renderArrivalsFromAPI(apiTrainData, dir1TimesEl, lineConfig.endpoint1ActualDestCode);
                     renderArrivalsFromAPI(apiTrainData, dir2TimesEl, lineConfig.endpoint2ActualDestCode);
                 } else if (!apiTrainData && (!dir1TimesEl.hasChildNodes() && !dir2TimesEl.hasChildNodes())) { 
-                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">Could not load schedule.</li>';
-                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">Could not load schedule.</li>';
+                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
+                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
                 }
             } else { 
                 if (!scheduleData || !scheduleData.direction1Times || !scheduleData.direction2Times) { 
-                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">No data available.</li>';
-                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">No data available.</li>';
+                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">No data available.</li>';
+                    if(dir2TimesEl) dir2TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">No data available.</li>';
                     return;
                 }
                 if (dir1TimesEl) renderArrivalsFromMock(getNextArrivals(scheduleData.direction1Times, now, selectedValue, 'direction1Times', currentDayTypeForBusRoute), dir1TimesEl);
@@ -1169,7 +1169,7 @@
                     const dir2TimesEl = document.getElementById(`train-direction2-times`);
                     if(dir1NameEl) dir1NameEl.textContent = 'Direction 1';
                     if(dir2NameEl) dir2NameEl.textContent = 'Direction 2';
-                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-xs">Select line & station.</li>';
+                    if(dir1TimesEl) dir1TimesEl.innerHTML = '<li class="italic text-gray-500 text-sm">Select line & station.</li>';
                     if(dir2TimesEl) dir2TimesEl.innerHTML = '';
                 }
             }

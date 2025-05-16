@@ -880,7 +880,7 @@
                     arrivalsForThisDisplayDirection.forEach((train, index) => {
                         if (count < 3) {
                             const li = document.createElement('li');
-                            li.className = 'py-1.5 flex justify-between items-center w-full';
+                            li.className = 'py-0.5 flex justify-between items-center w-full';
                             const arrivalTime = new Date(train.time);
                             const displayTime = arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
                             const minutesText = formatMinutesLeft(parseInt(train.ttnt));
@@ -915,7 +915,7 @@
                 } else {
                     arrivals.forEach((arr, index) => {
                         const li = document.createElement('li');
-                        li.className = 'py-1.5 flex justify-between items-center w-full'; 
+                        li.className = 'py-0.5 flex justify-between items-center w-full'; 
                         const minutesText = formatMinutesLeft(arr.minutesLeft);
                         
                         const isFirstItem = index === 0;

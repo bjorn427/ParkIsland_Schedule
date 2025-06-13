@@ -398,7 +398,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <h3 class="text-sm sm:text-base font-medium text-gray-700 mb-2">About This App</h3>
                         <p class="text-gray-600 text-sm leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-sm">Version: 5.6.0 "Adjusted Schedule Height"</p>
+                        <p class="text-gray-600 mt-2 text-sm">Version: 6.0.0 "Added Central Schedule"</p>
                     </div>
                 </div>
             </div>
@@ -660,9 +660,32 @@
                     sundayPublicHoliday: { direction1Name: "To Park Island (Bus)", direction1Times: ["10:00", "11:30", "13:00", "14:30", "16:00", "17:30"], direction2Name: "To Tsuen Wan (Bus)", direction2Times: ["10:45", "12:15", "13:45", "15:15", "16:45", "18:15"] }
                 },
                  "Central Pier <-> Park Island": { 
-                    weekday: { direction1Name: "To Park Island (Ferry)", direction1Times: ["07:00", "07:30", "08:00", "08:30", "09:00", "17:00", "17:30", "18:00", "18:30", "19:00"], direction2Name: "To Central Pier (Ferry)", direction2Times: ["07:15", "07:45", "08:15", "08:45", "09:15", "17:15", "17:45", "18:15", "18:45", "19:15"] },
-                    saturday: { direction1Name: "To Park Island (Ferry)", direction1Times: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"], direction2Name: "To Central Pier (Ferry)", direction2Times: ["08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30", "17:30"] },
-                    sundayPublicHoliday: { direction1Name: "To Park Island (Ferry)", direction1Times: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"], direction2Name: "To Central Pier (Ferry)", direction2Times: ["09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30"] }
+                    weekday: { 
+                        direction1Name: "To Park Island (Ferry)", 
+                        direction1Times: [
+                            "07:00", "07:30", "08:10", "08:30", "08:50",
+                            "09:10", "09:30","09:50","10:10","10:30","11:30","12:30","13:30",
+                            "14:30","15:30","16:30","17:30","18:00","18:30","19:00","19:30",
+                            "20:00","20:30","21:00","21:30","22:30","23:30"], 
+                        direction2Name: "To Central Pier (Ferry)", 
+                        direction2Times: [
+                            "06:30","07:00","07:20","07:40","08:00","08:20",
+                            "08:40","09:00","09:20","09:40","10:00","11:00","12:00","13:00",
+                            "14:00","15:00","16:00","17:00","17:30","18:00","18:30","19:00",
+                            "19:30","20:00","20:30","21:00","22:00","23:00"
+                        ]
+                    } ,
+                    saturday: { 
+                        direction1Name: "To Park Island (Ferry)", 
+                        direction1Times: ["07:30","08:30", "09:30", "10:30", "11:30", 
+                        "12:30", "13:30", "14:30", "15:30", "16:30", "17:30", "18:30", 
+                        "19:30", "20:30", "21:30", "22:30", "23:30"], 
+                        direction2Name: "To Central Pier (Ferry)", 
+                        direction2Times: ["07:00","08:00","09:00","10:00","11:00","12:00",
+                        "13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00",
+                        "21:00","22:00","23:00"] 
+                    },
+                    sundayPublicHoliday: { direction1Name: "To Park Island (Ferry)", direction1Times: ["07:30","08:30", "09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30", "16:30", "17:30", "18:30", "19:30", "20:30", "21:30", "22:30", "23:30"], direction2Name: "To Central Pier (Ferry)", direction2Times: ["07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"] }
                 },
                 "Tsuen Wan Pier <-> Park Island": { 
                     weekday: { direction1Name: "To Park Island (Ferry)", direction1Times: ["07:10", "07:40", "08:10", "08:40", "17:10", "17:40", "18:10", "18:40"], direction2Name: "To Tsuen Wan Pier (Ferry)", direction2Times: ["07:25", "07:55", "08:25", "08:55", "17:25", "17:55", "18:25", "18:55"] },
@@ -1009,8 +1032,8 @@
                 if (routeScheduleAllTypes) {
                     scheduleData = routeScheduleAllTypes[currentDayTypeForBusRoute];
                     if (scheduleData) { 
-                        dir1DisplayHeader = (scheduleData.direction1Name || "Direction 1").replace(/\s\([\w\s\/]+\)$/, ''); // Remove (Bus/Ferry)
-                        dir2DisplayHeader = (scheduleData.direction2Name || "Direction 2").replace(/\s\([\w\s\/]+\)$/, '');
+                        dir1DisplayHeader = (scheduleData.direction2Name || "Direction 2").replace(/\s\([\w\s\/]+\)$/, ''); // Remove (Bus/Ferry)
+                        dir2DisplayHeader = (scheduleData.direction1Name || "Direction 1").replace(/\s\([\w\s\/]+\)$/, '');
                     }
                 }
             } else if (type === 'train') {

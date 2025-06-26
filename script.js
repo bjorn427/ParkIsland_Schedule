@@ -1,5 +1,4 @@
-// script.js - FINAL AND COMPLETE (Fixed Schedule Tab Logic)
-console.log("script.js module loaded.");
+// script.js - FINAL AND COMPLETE (Fixed Schedule Tab Defaults)
 
 // --- MODULES & CONFIG ---
 import { appData } from './app-data.js';
@@ -22,6 +21,9 @@ const elements = {
     favoriteBusRouteSelect: document.getElementById('favorite-bus-route-select'),
     favoriteTrainLineSelect: document.getElementById('favorite-train-line-select'),
     favoriteTrainStationSelect: document.getElementById('favorite-train-station-select'),
+    saveFavoriteBusButton: document.getElementById('save-favorite-bus'),
+    saveFavoriteTrainButton: document.getElementById('save-favorite-train'),
+    settingsSavedMessage: document.getElementById('settings-saved-message'),
     allTabButtons: document.querySelectorAll('.bottom-nav-button'),
     contentPanes: document.querySelectorAll('.content-pane'),
     busDir1Name: document.getElementById('bus-direction1-name'),
@@ -194,9 +196,7 @@ function renderTrainArrivals(apiData, lineConfig) {
     processDirection(lineConfig.endpoint2ActualDestCode, trainDir2Times);
 }
 
-// ** RESTORED FUNCTION ** to display the static schedule table
 function displayStaticBusSchedule(selectedRouteAndDirection, scheduleType) {
-    console.log(`Debug: Displaying static schedule for route: ${selectedRouteAndDirection}, type: ${scheduleType}`);
     const { staticBusScheduleTableContainer, staticScheduleFixedHeader } = elements;
     if (!staticBusScheduleTableContainer || !staticScheduleFixedHeader) return;
 
@@ -232,7 +232,7 @@ function displayStaticBusSchedule(selectedRouteAndDirection, scheduleType) {
     const table = document.createElement('table');
     const tbody = document.createElement('tbody');
 
-    for (const hour of Object.keys(grouped).sort()) {
+    for (const hour of Object.keys(grouped).sort((a, b) => a - b)) {
         const tr = document.createElement('tr');
         const tdHour = document.createElement('td');
         tdHour.className = 'hour-cell';
@@ -250,6 +250,16 @@ function displayStaticBusSchedule(selectedRouteAndDirection, scheduleType) {
     staticBusScheduleTableContainer.appendChild(table);
 }
 
+function showSettingsSavedMessage() {
+    if (!elements.settingsSavedMessage) return;
+    elements.settingsSavedMessage.classList.remove('hidden');
+    elements.settingsSavedMessage.classList.add('show');
+    setTimeout(() => {
+        elements.settingsSavedMessage.classList.remove('show');
+        setTimeout(() => elements.settingsSavedMessage.classList.add('hidden'), 500);
+    }, 2500);
+}
+
 
 // --- MAIN APP LOGIC ---
 
@@ -263,7 +273,7 @@ async function updateLiveSchedules() {
     // Bus & Ferry Logic
     const routeName = elements.busRouteSelect.value;
     const transportType = appData.bus[routeName] ? 'bus' : 'ferry';
-    const schedule = appData[transportType][routeName];
+    const schedule = appData[transportType]?.[routeName];
     const currentDayType = getCurrentDayType(now);
     
     if (schedule && schedule[currentDayType]) {
@@ -296,80 +306,110 @@ async function updateLiveSchedules() {
 }
 
 
-// --- INITIALIZATION ---
+// --- INITIALIZATION & PREFERENCES ---
 
 function populateSelectors() {
-    console.log("Debug: Populating ALL selectors.");
-    // ** FIX: Restore the full population logic for all select elements **
-    [elements.busRouteSelect, elements.favoriteBusRouteSelect].forEach(selectEl => {
+    const { busRouteSelect, favoriteBusRouteSelect, staticBusRouteSelect, trainLineSelect, favoriteTrainLineSelect } = elements;
+    
+    const transportTypes = ['bus', 'ferry'];
+    [busRouteSelect, favoriteBusRouteSelect].forEach(selectEl => {
         if (!selectEl) return;
         const currentValue = selectEl.value;
         selectEl.innerHTML = '';
-        if (selectEl === elements.favoriteBusRouteSelect) selectEl.add(new Option("None", ""));
-        
-        ['bus', 'ferry'].forEach(type => {
-            Object.keys(appData[type]).forEach(routeName => {
-                selectEl.add(new Option(routeName, routeName));
-            });
+        if (selectEl === favoriteBusRouteSelect) selectEl.add(new Option("None", ""));
+        transportTypes.forEach(type => {
+            Object.keys(appData[type]).forEach(routeName => selectEl.add(new Option(routeName, routeName)));
         });
-        if(selectEl.querySelector(`option[value="${currentValue}"]`)) selectEl.value = currentValue;
+        if (selectEl.querySelector(`option[value="${currentValue}"]`)) selectEl.value = currentValue;
     });
 
-    if (elements.staticBusRouteSelect) {
-        const selectEl = elements.staticBusRouteSelect;
-        const currentValue = selectEl.value;
-        selectEl.innerHTML = '';
-        selectEl.add(new Option("Select a Route", ""));
-         ['bus', 'ferry'].forEach(type => {
+    if (staticBusRouteSelect) {
+        const currentValue = staticBusRouteSelect.value;
+        staticBusRouteSelect.innerHTML = '';
+        staticBusRouteSelect.add(new Option("Select Route & Direction", ""));
+        transportTypes.forEach(type => {
             Object.keys(appData[type]).forEach(routeName => {
                  const routeData = appData[type][routeName];
                  const scheduleForNames = routeData.weekday || routeData.saturday || routeData.sundayPublicHoliday;
                  if (scheduleForNames) {
-                    const dir1Name = scheduleForNames.direction1Name;
-                    const dir2Name = scheduleForNames.direction2Name;
-                    // Format: Route Name | Direction Name, Value: routeName__directionKey
-                    selectEl.add(new Option(`${routeName} | ${dir1Name}`, `${routeName}__direction1Times`));
-                    selectEl.add(new Option(`${routeName} | ${dir2Name}`, `${routeName}__direction2Times`));
+                    staticBusRouteSelect.add(new Option(`${routeName} | ${scheduleForNames.direction1Name}`, `${routeName}__direction1Times`));
+                    staticBusRouteSelect.add(new Option(`${routeName} | ${scheduleForNames.direction2Name}`, `${routeName}__direction2Times`));
                  }
             });
         });
-        if(selectEl.querySelector(`option[value="${currentValue}"]`)) selectEl.value = currentValue;
+        if(staticBusRouteSelect.querySelector(`option[value="${currentValue}"]`)) staticBusRouteSelect.value = currentValue;
     }
 
-    [elements.trainLineSelect, elements.favoriteTrainLineSelect].forEach(sel => {
+    [trainLineSelect, favoriteTrainLineSelect].forEach(sel => {
         if (!sel) return;
         const currentValue = sel.value;
         sel.innerHTML = '';
-        if (sel === elements.favoriteTrainLineSelect) sel.add(new Option("None", ""));
+        if (sel === favoriteTrainLineSelect) sel.add(new Option("None", ""));
         Object.keys(mtrApiConfig).forEach(lineName => sel.add(new Option(lineName, lineName)));
         if (sel.querySelector(`option[value="${currentValue}"]`)) sel.value = currentValue;
     });
 }
 
-function populateTrainStationSelector(lineName) {
-    const { trainStationSelect } = elements;
-    if (!trainStationSelect) return;
-    trainStationSelect.innerHTML = '';
+function populateTrainStationSelector(lineName, selectElement, selectedStationName) {
+    if (!selectElement) return;
+    selectElement.innerHTML = '';
     const lineConfig = mtrApiConfig[lineName];
     if (!lineConfig) {
-        trainStationSelect.add(new Option("Select Station", ""));
+        selectElement.add(new Option("Select Station", ""));
         return;
     }
-    Object.keys(lineConfig.stations).forEach(stationName => trainStationSelect.add(new Option(stationName, stationName)));
-    trainStationSelect.value = lineConfig.defaultStationName;
+    Object.keys(lineConfig.stations).forEach(stationName => selectElement.add(new Option(stationName, stationName)));
+    
+    if (selectedStationName && selectElement.querySelector(`option[value="${selectedStationName}"]`)) {
+        selectElement.value = selectedStationName;
+    } else {
+        selectElement.value = lineConfig.defaultStationName;
+    }
+}
+
+function loadPreferences() {
+    const favBusRoute = localStorage.getItem('favoriteBusRoute');
+    const favTrainLine = localStorage.getItem('favoriteTrainLine');
+    const favTrainStation = localStorage.getItem('favoriteTrainStation');
+
+    if (favBusRoute && elements.busRouteSelect.querySelector(`option[value="${favBusRoute}"]`)) {
+        elements.busRouteSelect.value = favBusRoute;
+    } else {
+        elements.busRouteSelect.value = "Tsing Yi <-> Park Island";
+    }
+
+    if (elements.favoriteBusRouteSelect) {
+        elements.favoriteBusRouteSelect.value = favBusRoute || "";
+    }
+    if (elements.favoriteTrainLineSelect) {
+        elements.favoriteTrainLineSelect.value = favTrainLine || "";
+        populateTrainStationSelector(favTrainLine, elements.favoriteTrainStationSelect, favTrainStation);
+    }
 }
 
 function setupEventListeners() {
-    console.log("Debug: Setting up event listeners...");
     elements.allTabButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetTab = button.dataset.tab;
             elements.contentPanes.forEach(pane => pane.classList.toggle('active', pane.id === `${targetTab}-pane`));
             elements.allTabButtons.forEach(btn => btn.classList.toggle('active', btn === button));
             
-            if (targetTab === 'home') updateLiveSchedules();
+            if (targetTab === 'home') {
+                updateLiveSchedules();
+            }
             if (targetTab === 'schedule') {
-                console.log("Debug: Switched to Schedule Tab.");
+                // ** FIX for Schedule Tab Default **
+                if (!elements.staticBusRouteSelect.value) {
+                    const favRoute = localStorage.getItem('favoriteBusRoute');
+                    // Default to favorite route (direction 2 is always To Park Island), or Tsing Yi route as a fallback
+                    const defaultRouteValue = favRoute 
+                        ? `${favRoute}__direction2Times` 
+                        : "Tsing Yi <-> Park Island__direction1Times"; // Default to "To Tsing Yi"
+                    
+                    if (elements.staticBusRouteSelect.querySelector(`option[value="${defaultRouteValue}"]`)) {
+                        elements.staticBusRouteSelect.value = defaultRouteValue;
+                    }
+                }
                 displayStaticBusSchedule(elements.staticBusRouteSelect.value, currentStaticScheduleType);
             }
         });
@@ -377,12 +417,15 @@ function setupEventListeners() {
 
     elements.busRouteSelect?.addEventListener('change', updateLiveSchedules);
     elements.trainLineSelect?.addEventListener('change', () => {
-        populateTrainStationSelector(elements.trainLineSelect.value);
+        populateTrainStationSelector(elements.trainLineSelect.value, elements.trainStationSelect);
         updateLiveSchedules();
     });
     elements.trainStationSelect?.addEventListener('change', updateLiveSchedules);
+    
+    elements.favoriteTrainLineSelect?.addEventListener('change', (e) => {
+        populateTrainStationSelector(e.target.value, elements.favoriteTrainStationSelect);
+    });
 
-    // ** FIX: Restore Event Listeners for Schedule Tab **
     elements.staticBusRouteSelect?.addEventListener('change', () => {
         displayStaticBusSchedule(elements.staticBusRouteSelect.value, currentStaticScheduleType);
     });
@@ -394,25 +437,37 @@ function setupEventListeners() {
             displayStaticBusSchedule(elements.staticBusRouteSelect.value, currentStaticScheduleType);
         }
     });
+
+    elements.saveFavoriteBusButton?.addEventListener('click', () => {
+        const selectedFavBus = elements.favoriteBusRouteSelect.value;
+        localStorage.setItem('favoriteBusRoute', selectedFavBus);
+        if (elements.busRouteSelect) elements.busRouteSelect.value = selectedFavBus;
+        showSettingsSavedMessage();
+    });
+
+    elements.saveFavoriteTrainButton?.addEventListener('click', () => {
+        const selectedFavTrainLine = elements.favoriteTrainLineSelect.value;
+        const selectedFavTrainStation = elements.favoriteTrainStationSelect.value;
+        localStorage.setItem('favoriteTrainLine', selectedFavTrainLine);
+        localStorage.setItem('favoriteTrainStation', selectedFavTrainStation);
+        if (elements.trainLineSelect) {
+             elements.trainLineSelect.value = selectedFavTrainLine;
+             populateTrainStationSelector(selectedFavTrainLine, elements.trainStationSelect, selectedFavTrainStation);
+        }
+        showSettingsSavedMessage();
+    });
 }
 
 function initializeApp() {
-    console.log("Initializing App...");
     populateSelectors();
-    populateTrainStationSelector(elements.trainLineSelect.value);
+    loadPreferences();
+    populateTrainStationSelector(elements.trainLineSelect.value, elements.trainStationSelect, localStorage.getItem('favoriteTrainStation'));
     setupEventListeners();
-    // loadPreferences(); // TODO: Re-implement
     
-    // Set Home tab as default on first load
     document.querySelector('.bottom-nav-button[data-tab="home"]')?.click();
     
-    // Initial call to load data for home screen
-    updateLiveSchedules();
-
-    // Set up intervals
     setInterval(updateLiveSchedules, 30000);
     setInterval(() => updateDateTimeDisplay(new Date()), 1000);
 }
 
-// Start the app
 document.addEventListener('DOMContentLoaded', initializeApp);

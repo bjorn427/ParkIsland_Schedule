@@ -1033,8 +1033,8 @@
                 if (routeScheduleAllTypes) {
                     scheduleData = routeScheduleAllTypes[currentDayTypeForBusRoute];
                     if (scheduleData) { 
-                        dir1DisplayHeader = (scheduleData.direction2Name || "Direction 2").replace(/\s\([\w\s\/]+\)$/, ''); // Remove (Bus/Ferry)
-                        dir2DisplayHeader = (scheduleData.direction1Name || "Direction 1").replace(/\s\([\w\s\/]+\)$/, '');
+                        dir1DisplayHeader = (scheduleData.direction1Name || "Direction 1").replace(/\s\([\w\s\/]+\)$/, ''); // Remove (Bus/Ferry)
+                        dir2DisplayHeader = (scheduleData.direction2Name || "Direction 2").replace(/\s\([\w\s\/]+\)$/, '');
                     }
                 }
             } else if (type === 'train') {

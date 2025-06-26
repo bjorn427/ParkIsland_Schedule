@@ -1,6 +1,20 @@
+// api.js
+// This module is responsible for all communication with external services.
+
+// FIX: Import the appData object to get access to the train configuration.
+import { appData } from './app-data.js';
+
+// Get a reference to the train config
+const mtrApiConfig = appData.train;
+let trainDataCache = {}; // The cache for API responses
+
 export async function fetchTrainSchedule(lineName, stationName) {
+    // This function can now correctly reference mtrApiConfig
     const lineConfig = mtrApiConfig[lineName];
-    if (!lineConfig || !lineConfig.stations[stationName]) return null;
+    if (!lineConfig || !lineConfig.stations[stationName]) {
+        console.error("Invalid line or station for MTR API:", lineName, stationName);
+        return null;
+    }
     
     const lineCode = lineConfig.apiLineCode;
     const stationCode = lineConfig.stations[stationName];
@@ -11,16 +25,22 @@ export async function fetchTrainSchedule(lineName, stationName) {
         const response = await fetch(apiUrl);
         if (!response.ok) {
             console.error("MTR API request failed:", response.status);
-            return trainDataCache[cacheKey] || null;
+            // On error, return cached data if available
+            return trainDataCache[cacheKey] || null; 
         }
         const data = await response.json();
         if (data.status === 1 && data.data && data.data[cacheKey]) {
-            trainDataCache[cacheKey] = data.data[cacheKey];
+            // Update cache and return data
+            trainDataCache[cacheKey] = data.data[cacheKey]; 
             return data.data[cacheKey];
+        } else if (data.status === 0) {
+            // Handle special messages from the API (e.g., service suspension)
+             return { specialMessage: data.message, alertUrl: data.url }; 
         }
-        return null;
+        return null; // Return null if format is unexpected
     } catch (error) {
         console.error("Error fetching MTR schedule:", error);
-        return trainDataCache[cacheKey] || null;
+        // On network error, return cached data if available
+        return trainDataCache[cacheKey] || null; 
     }
 }

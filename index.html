@@ -7,115 +7,112 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href ="style.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- ** NEW: Add the Popper.js library ** -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+
 </head>
-<body class="bg-gray-50 text-gray-800"> 
-    <div class="min-h-screen flex flex-col"> 
-        <main> 
-            <div id="home-pane" class="content-pane"> 
-                <div id="time-card" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4">
-                    <div id="current-time" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen flex flex-col">
+        <main>
+            <!-- Home Pane -->
+            <div id="home-pane" class="content-pane active">
+                <div id="time-card" class="card-ive p-3 flex flex-col justify-center items-center mb-4">
+                    <div id="current-time" class="text-2xl font-medium text-gray-900">--:-- --</div>
                     <div id="current-day-date" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
                 </div>
-                <div class="grid grid-cols-1 gap-3 sm:gap-4">
-                    <div id="bus-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
-                        <h2 class="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-2.5">Park Island Departures</h2>
-                        <select id="bus-route-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
-                        <div id="bus-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
+                <div class="grid grid-cols-1 gap-4">
+                    <!-- Bus/Ferry Card -->
+                    <div class="card-ive p-4 flex flex-col">
+                        <h2 class="text-base font-semibold text-gray-800 mb-3">Departures</h2>
+                        <div id="bus-route-dropdown-container" class="relative w-full mb-3"></div>
+                        
+                        <div id="bus-schedule-display" class="flex flex-row gap-4 flex-grow">
                             <div class="w-1/2 flex flex-col">
-                                <h3 id="bus-direction1-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
-                                <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="bus-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
+                                <h3 id="bus-direction1-name" class="text-sm font-semibold text-gray-600 pb-1">Direction 1</h3>
+                                <div class="border-b border-gray-200 mb-1.5"></div>
+                                <ul id="bus-direction1-times" class="space-y-0.5 text-gray-700"></ul>
                             </div>
-                            <div class="w-1/2 flex flex-col"> 
-                                <h3 id="bus-direction2-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
-                                <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="bus-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"></ul>
+                            <div class="w-1/2 flex flex-col">
+                                <h3 id="bus-direction2-name" class="text-sm font-semibold text-gray-600 pb-1">Direction 2</h3>
+                                <div class="border-b border-gray-200 mb-1.5"></div>
+                                <ul id="bus-direction2-times" class="space-y-0.5 text-gray-700"></ul>
                             </div>
                         </div>
                     </div>
-                    <div id="train-schedule-card" class="card-ive rounded-xl p-3 sm:p-4 flex flex-col">
-                        <h2 class="text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-2.5">Train Departures</h2>
-                        <select id="train-line-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 text-sm"></select>
-                        <select id="train-station-select" class="w-full p-2 sm:p-2.5 border rounded-lg mb-2 sm:mb-2.5 text-sm"></select>
-                        <div id="train-schedule-display" class="flex flex-row gap-3 sm:gap-4 flex-grow">
-                            <div class="w-1/2 flex flex-col">
-                                <h3 id="train-direction1-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 1</h3>
-                                <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="train-direction1-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-sm">Loading...</li></ul>
+                    <!-- Train Card -->
+                    <div class="card-ive p-4 flex flex-col">
+                        <h2 class="text-base font-semibold text-gray-800 mb-3">Train Departures</h2>
+                        <div class="space-y-3">
+                            <div id="train-line-dropdown-container" class="relative w-full"></div>
+                            <div id="train-station-dropdown-container" class="relative w-full"></div>
+                        </div>
+                        <div id="train-schedule-display" class="flex flex-row gap-4 flex-grow mt-3">
+                             <div class="w-1/2 flex flex-col">
+                                <h3 id="train-direction1-name" class="text-sm font-semibold text-gray-600 pb-1">Direction 1</h3>
+                                <div class="border-b border-gray-200 mb-1.5"></div>
+                                <ul id="train-direction1-times" class="space-y-0.5 text-gray-700"><li class="loading-text text-sm">Loading...</li></ul>
                             </div>
-                            <div class="w-1/2 flex flex-col"> 
-                                <h3 id="train-direction2-name" class="text-sm font-semibold text-gray-600 sticky top-0 bg-white/90 backdrop-blur-sm pb-1 z-10">Direction 2</h3>
-                                <div class="border-b border-gray-200 mb-1.5"></div> 
-                                <ul id="train-direction2-times" class="space-y-0.5 text-gray-700 flex-grow overflow-y-auto pr-1 max-h-[110px] sm:max-h-[120px] md:max-h-[130px]"><li class="loading-text text-sm">Loading...</li></ul>
+                            <div class="w-1/2 flex flex-col">
+                                <h3 id="train-direction2-name" class="text-sm font-semibold text-gray-600 pb-1">Direction 2</h3>
+                                <div class="border-b border-gray-200 mb-1.5"></div>
+                                <ul id="train-direction2-times" class="space-y-0.5 text-gray-700"><li class="loading-text text-sm">Loading...</li></ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="schedule-pane" class="content-pane"> 
-                <div id="time-card-schedule" class="card-ive min-h-[60px] sm:min-h-[70px] rounded-xl p-2 sm:p-3 flex flex-col justify-center items-center mb-3 sm:mb-4 flex-shrink-0">
-                    <div id="current-time-schedule" class="text-xl sm:text-3xl font-medium text-gray-900">--:-- --</div>
+            <!-- Schedule Pane -->
+            <div id="schedule-pane" class="content-pane">
+                 <div id="time-card-schedule" class="card-ive p-3 flex flex-col justify-center items-center mb-4">
+                    <div id="current-time-schedule" class="text-2xl font-medium text-gray-900">--:-- --</div>
                     <div id="current-day-date-schedule" class="text-sm text-gray-500 mt-0.5">----------, ---------- --, ----</div>
                 </div>
-                <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 flex flex-col schedule-content-wrapper"> 
-                    <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-3 sm:mb-4 flex-shrink-0">Full Park Island Schedules</h2>
-                    <select id="static-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg mb-4 text-sm flex-shrink-0">
-                        <option value="">Select a Route and Direction</option> 
-                    </select>
-                    <div id="schedule-type-selector-container" class="segmented-control-container mb-4 flex-shrink-0"> 
+                 <div class="card-ive rounded-xl p-4 flex flex-col">
+                    <h2 class="text-lg font-medium text-gray-700 mb-4">Full Schedules</h2>
+                    <div id="static-bus-route-dropdown-container" class="relative w-full mb-4"></div>
+                    <div id="schedule-type-selector-container" class="segmented-control-container mb-4">
                         <button data-scheduletype="weekday" class="schedule-type-segment active">Weekday</button>
                         <button data-scheduletype="saturday" class="schedule-type-segment">Saturday</button>
                         <button data-scheduletype="sundayPublicHoliday" class="schedule-type-segment">Sun/PH</button>
                     </div>
-                    <div id="static-schedule-fixed-header" class="static-schedule-header-fixed flex-shrink-0">
+                    <div id="static-schedule-fixed-header" class="static-schedule-header-fixed">
                         <div class="hour-header">Hour</div>
                         <div class="minutes-header">Minutes</div>
                     </div>
                     <div id="static-bus-schedule-table-container" class="static-schedule-table">
-                        <p class="text-gray-500 text-sm px-2 sm:px-3">Please select a route, direction, and schedule type.</p>
+                        <p class="text-gray-500 text-sm p-3">Please select a route.</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Settings Pane -->
             <div id="settings-pane" class="content-pane">
-                <div class="card-ive rounded-xl p-3 sm:p-4 md:p-6 relative"> 
-                    <p id="settings-saved-message" class="hidden">Settings saved!</p>
-                    <h2 class="text-sm sm:text-lg font-medium text-gray-700 mb-4 sm:mb-6">Settings</h2>
-                    <div class="space-y-5">
+                <div class="card-ive rounded-xl p-4 relative">
+                    <p id="settings-saved-message" class="hidden absolute top-4 right-4 bg-green-500 text-white text-sm py-2 px-4 rounded-md">Settings saved!</p>
+                    <h2 class="text-lg font-medium text-gray-700 mb-6">Settings</h2>
+                    <div class="space-y-6">
                         <div>
-                            <label for="favorite-bus-route-select" class="block text-sm font-medium text-gray-700 mb-1.5">Favorite Park Island Route</label>
-                            <select id="favorite-bus-route-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
-                                <option value="">None</option>
-                            </select>
-                            <button id="save-favorite-bus" class="button-ive mt-2.5 px-4 text-sm">Save Route Preference</button>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Favorite Bus/Ferry Route</label>
+                            <div id="favorite-bus-route-dropdown-container" class="relative w-full"></div>
+                            <button id="save-favorite-bus" class="button-ive mt-3 w-full">Save Route Preference</button>
                         </div>
                         <div>
-                            <label for="favorite-train-line-select" class="block text-sm font-medium text-gray-700 mb-1.5">Favorite Train Line</label>
-                            <select id="favorite-train-line-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
-                                <option value="">None</option>
-                            </select>
-                             <label for="favorite-train-station-select" class="block text-sm font-medium text-gray-700 mb-1.5 mt-3">Favorite Station on this Line</label>
-                            <select id="favorite-train-station-select" class="w-full p-2 sm:p-3 border rounded-lg text-sm">
-                                <option value="">None</option>
-                            </select>
-                            <button id="save-favorite-train" class="button-ive mt-2.5 px-4 text-sm">Save Train Preference</button>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Favorite Train Line & Station</label>
+                            <div id="favorite-train-line-dropdown-container" class="relative w-full mb-3"></div>
+                            <div id="favorite-train-station-dropdown-container" class="relative w-full"></div>
+                            <button id="save-favorite-train" class="button-ive mt-3 w-full">Save Train Preference</button>
                         </div>
-                    </div>
-                    
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h3 class="text-sm sm:text-base font-medium text-gray-700 mb-2">About This App</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">TransitApp provides real-time departure information to streamline your commute, focusing on clarity and ease of use.</p>
-                        <p class="text-gray-600 mt-2 text-sm">Version: 6.1.0 "Separating Architecture"</p>
                     </div>
                 </div>
             </div>
         </main>
 
         <nav class="bottom-nav-ive fixed bottom-0 left-0 w-full z-30">
-            <div class="max-w-md mx-auto flex justify-around items-center h-16"> 
-                <button data-tab="home" class="bottom-nav-button"> 
+            <div class="max-w-md mx-auto flex justify-around items-center h-16">
+                 <button data-tab="home" class="bottom-nav-button">
                     <div class="bottom-nav-icon-wrapper">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                     </div>
@@ -125,13 +122,13 @@
                     <div class="bottom-nav-icon-wrapper">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </div>
-                    <span class="nav-text">Schedule</span> 
+                    <span class="nav-text">Schedule</span>
                 </button>
                 <button data-tab="settings" class="bottom-nav-button">
                     <div class="bottom-nav-icon-wrapper">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                         </svg>
                     </div>
                     <span class="nav-text">Settings</span>
@@ -140,6 +137,7 @@
         </nav>
     </div>
 
+    <!-- The script tag must be a module to use import/export -->
     <script type="module" src="script.js"></script>
 </body>
 </html>

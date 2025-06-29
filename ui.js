@@ -1,18 +1,16 @@
 // ui.js
 // This module is responsible for all functions that directly manipulate the DOM.
 
-// Note: This module will need to import some helper functions itself.
-import { parseScheduleJsonToHHMM, formatMinutesLeft } from './utils.js';
 import { appData } from './app-data.js';
+import { appInfo } from './app-info.js';
+import { parseScheduleJsonToHHMM, formatMinutesLeft } from './utils.js';
 
 export function updateDateTimeDisplay(now) {
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
     const dateString = `${now.toLocaleDateString([], { weekday: 'long' })}, ${now.toLocaleDateString([], { month: 'long', day: 'numeric', year: 'numeric' })}`;
     
-    document.getElementById('current-time').textContent = timeString;
-    document.getElementById('current-day-date').textContent = dateString;
-    document.getElementById('current-time-schedule').textContent = timeString;
-    document.getElementById('current-day-date-schedule').textContent = dateString;
+    document.querySelectorAll('.time-display').forEach(el => el.textContent = timeString);
+    document.querySelectorAll('.date-display').forEach(el => el.textContent = dateString);
 }
 
 export function renderArrivals(arrivals, targetEl) {
@@ -24,15 +22,12 @@ export function renderArrivals(arrivals, targetEl) {
     }
     arrivals.forEach((arr, index) => {
         const li = document.createElement('li');
-        li.className = 'py-0.5 flex justify-between items-center w-full';
+        li.className = 'py-0.5 flex justify-between items-center w-full text-sm';
         const minutesText = formatMinutesLeft(arr.minutesLeft);
         const isFirstItem = index === 0;
-        const timeClass = isFirstItem ? 'font-semibold text-sm text-[var(--app-accent-color)]' : 'font-medium text-sm text-gray-500';
-        const waitingTimeClass = minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'text-gray-600 text-right';
-        const waitingTimeSizeClass = isFirstItem ? 'text-sm' : 'text-sm';
-        const waitingTimeBoldClass = isFirstItem ? 'font-semibold' : '';
-        const waitingTimeColorClass = isFirstItem && minutesText !== 'Now!' ? 'text-[var(--app-accent-color)]' : '';
-        li.innerHTML = `<span class="${timeClass}">${arr.time}</span><span class="${waitingTimeClass} ${waitingTimeBoldClass} ${waitingTimeSizeClass} ${waitingTimeColorClass}">${minutesText}</span>`;
+        const timeClass = isFirstItem ? 'font-semibold text-[var(--app-accent-color)]' : 'font-medium text-gray-500';
+        const waitingTimeClass = isFirstItem ? (minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'font-semibold text-[var(--app-accent-color)] text-right') : 'text-gray-600 text-right';
+        li.innerHTML = `<span class="${timeClass}">${arr.time}</span><span class="${waitingTimeClass}">${minutesText}</span>`;
         targetEl.appendChild(li);
     });
 }
@@ -40,13 +35,14 @@ export function renderArrivals(arrivals, targetEl) {
 export function renderTrainArrivals(apiData, lineConfig) {
     const trainDir1Times = document.getElementById('train-direction1-times');
     const trainDir2Times = document.getElementById('train-direction2-times');
-    [trainDir1Times, trainDir2Times].forEach(el => el.innerHTML = '');
+    
+    [trainDir1Times, trainDir2Times].forEach(el => { if (el) el.innerHTML = '' });
 
     if (!apiData) {
-        trainDir1Times.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
+        if(trainDir1Times) trainDir1Times.innerHTML = '<li class="italic text-gray-500 text-sm">Could not load schedule.</li>';
         return;
     }
-
+    
     const processDirection = (direction, targetEl) => {
         const arrivalsForDirection = (apiData.UP || []).concat(apiData.DOWN || [])
             .filter(train => train.valid === "Y" && (Array.isArray(direction) ? direction.includes(train.dest) : train.dest === direction))
@@ -65,26 +61,29 @@ export function renderTrainArrivals(apiData, lineConfig) {
 
 export function displayStaticBusSchedule(selectedRouteAndDirection, scheduleType) {
     const tableContainer = document.getElementById('static-bus-schedule-table-container');
-    const fixedHeaderEl = document.getElementById('static-schedule-fixed-header');
-    if (!tableContainer || !fixedHeaderEl) return;
+    /** FINAL FIX: Target the new wrapper element for showing/hiding. */
+    const headerWrapper = document.getElementById('schedule-header-wrapper');
+    if (!tableContainer || !headerWrapper) return;
 
     tableContainer.innerHTML = ''; 
 
     if (!selectedRouteAndDirection) {
-        tableContainer.innerHTML = '<p class="text-gray-500 text-sm px-2 sm:px-3">Please select a route and direction.</p>';
-        fixedHeaderEl.style.display = 'none';
+        tableContainer.innerHTML = '<p class="text-gray-500 text-sm p-3">Please select a route.</p>';
+        headerWrapper.classList.add('hidden');
         return;
     }
 
     const [routeName, directionKey] = selectedRouteAndDirection.split('__');
     const transportType = appData.bus[routeName] ? 'bus' : 'ferry';
-    const routeData = appData[transportType]?.[routeName];
+    const routeData = appData[transportType][routeName];
 
     if (!routeData || !routeData[scheduleType] || !routeData[scheduleType][directionKey]) {
-        tableContainer.innerHTML = `<p class="text-gray-500 text-sm px-2 sm:px-3">No schedule found for this criteria.</p>`;
-        fixedHeaderEl.style.display = 'none';
+        tableContainer.innerHTML = `<p class="text-gray-500 text-sm p-3">No schedule found.</p>`;
+        headerWrapper.classList.add('hidden');
         return;
     }
+
+    headerWrapper.classList.remove('hidden');
 
     const rawTimes = routeData[scheduleType][directionKey];
     const timesArray = parseScheduleJsonToHHMM(rawTimes);
@@ -96,98 +95,41 @@ export function displayStaticBusSchedule(selectedRouteAndDirection, scheduleType
         return acc;
     }, {});
 
-    fixedHeaderEl.style.display = 'flex';
-    const table = document.createElement('table');
-    const tbody = document.createElement('tbody');
+    const sortedHours = Object.keys(grouped).sort((a, b) => parseInt(a) - parseInt(b));
+    const fragment = document.createDocumentFragment();
 
-    for (const hour of Object.keys(grouped).sort((a, b) => a - b)) {
-        const tr = document.createElement('tr');
-        const tdHour = document.createElement('td');
-        tdHour.className = 'hour-cell';
-        tdHour.textContent = hour;
-        
-        const tdMinutes = document.createElement('td');
-        tdMinutes.className = 'minutes-cell';
-        tdMinutes.innerHTML = grouped[hour].map(min => `<span class="minute-item">${min}</span>`).join(' ');
+    sortedHours.forEach(hour => {
+        const hourCell = document.createElement('div');
+        hourCell.className = 'schedule-hour-cell schedule-sticky-col';
+        hourCell.textContent = hour;
 
-        tr.appendChild(tdHour);
-        tr.appendChild(tdMinutes);
-        tbody.appendChild(tr);
-    }
-    table.appendChild(tbody);
-    tableContainer.appendChild(table);
+        const minutesCell = document.createElement('div');
+        minutesCell.className = 'schedule-minutes-cell';
+        minutesCell.innerHTML = grouped[hour]
+            .map(min => `<span class="minute-item">${min}</span>`)
+            .join('');
+
+        fragment.appendChild(hourCell);
+        fragment.appendChild(minutesCell);
+    });
+
+    tableContainer.appendChild(fragment);
 }
 
 export function showSettingsSavedMessage() {
-    const settingsSavedMessageEl = document.getElementById('settings-saved-message');
-    if (!settingsSavedMessageEl) return;
-    settingsSavedMessageEl.classList.remove('hidden');
-    settingsSavedMessageEl.classList.add('show');
+    const messageEl = document.getElementById('settings-saved-message');
+    if (!messageEl) return;
+    messageEl.classList.remove('hidden');
+    messageEl.classList.add('show');
     setTimeout(() => {
-        settingsSavedMessageEl.classList.remove('show');
-        setTimeout(() => settingsSavedMessageEl.classList.add('hidden'), 500);
+        messageEl.classList.remove('show');
+        setTimeout(() => messageEl.classList.add('hidden'), 500);
     }, 2500);
 }
 
-export function populateSelectors() {
-    const busRouteSelect = document.getElementById('bus-route-select');
-    const favoriteBusRouteSelect = document.getElementById('favorite-bus-route-select');
-    const staticBusRouteSelect = document.getElementById('static-bus-route-select');
-    const trainLineSelect = document.getElementById('train-line-select');
-    const favoriteTrainLineSelect = document.getElementById('favorite-train-line-select');
-    
-    const transportTypes = ['bus', 'ferry'];
-    [busRouteSelect, favoriteBusRouteSelect].forEach(selectEl => {
-        if (!selectEl) return;
-        const currentValue = selectEl.value;
-        selectEl.innerHTML = '';
-        if (selectEl === favoriteBusRouteSelect) selectEl.add(new Option("None", ""));
-        transportTypes.forEach(type => {
-            Object.keys(appData[type]).forEach(routeName => selectEl.add(new Option(routeName, routeName)));
-        });
-        if (selectEl.querySelector(`option[value="${currentValue}"]`)) selectEl.value = currentValue;
-    });
-
-    if (staticBusRouteSelect) {
-        const currentValue = staticBusRouteSelect.value;
-        staticBusRouteSelect.innerHTML = '';
-        staticBusRouteSelect.add(new Option("Select Route & Direction", ""));
-        transportTypes.forEach(type => {
-            Object.keys(appData[type]).forEach(routeName => {
-                 const routeData = appData[type][routeName];
-                 const scheduleForNames = routeData.weekday || routeData.saturday || routeData.sundayPublicHoliday;
-                 if (scheduleForNames) {
-                    staticBusRouteSelect.add(new Option(`${routeName} | ${scheduleForNames.direction1Name}`, `${routeName}__direction1Times`));
-                    staticBusRouteSelect.add(new Option(`${routeName} | ${scheduleForNames.direction2Name}`, `${routeName}__direction2Times`));
-                 }
-            });
-        });
-        if(staticBusRouteSelect.querySelector(`option[value="${currentValue}"]`)) staticBusRouteSelect.value = currentValue;
-    }
-
-    [trainLineSelect, favoriteTrainLineSelect].forEach(sel => {
-        if (!sel) return;
-        const currentValue = sel.value;
-        sel.innerHTML = '';
-        if (sel === favoriteTrainLineSelect) sel.add(new Option("None", ""));
-        Object.keys(appData.train).forEach(lineName => sel.add(new Option(lineName, lineName)));
-        if (sel.querySelector(`option[value="${currentValue}"]`)) sel.value = currentValue;
-    });
-}
-
-export function populateTrainStationSelector(lineName, selectElement, selectedStationName) {
-    if (!selectElement) return;
-    selectElement.innerHTML = '';
-    const lineConfig = appData.train[lineName];
-    if (!lineConfig) {
-        selectElement.add(new Option("Select Station", ""));
-        return;
-    }
-    Object.keys(lineConfig.stations).forEach(stationName => selectElement.add(new Option(stationName, stationName)));
-    
-    if (selectedStationName && selectElement.querySelector(`option[value="${selectedStationName}"]`)) {
-        selectElement.value = selectedStationName;
-    } else {
-        selectElement.value = lineConfig.defaultStationName;
-    }
+export function populateAboutInfo() {
+    if (document.getElementById('app-version')) document.getElementById('app-version').textContent = appInfo.version;
+    if (document.getElementById('app-versionNotes')) document.getElementById('app-versionNotes').textContent = appInfo.versionNotes;
+    if (document.getElementById('app-developer')) document.getElementById('app-developer').textContent = appInfo.developer;
+    if (document.getElementById('app-last-updated')) document.getElementById('app-last-updated').textContent = appInfo.lastUpdated;
 }

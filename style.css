@@ -217,11 +217,11 @@ main {
     display: flex;
     background-color: #e9ecef; 
     border-radius: 8px;
-    padding: 3px;
+    padding: 1px;
     width: 100%; 
 }
 .schedule-type-segment {
-    padding: 0.35rem 0.75rem; 
+    padding: 0.25rem 0.75rem; 
     border-radius: 6px; 
     background-color: transparent;
     color: #495057; 
@@ -257,10 +257,10 @@ main {
     font-size: 0.875rem;
     color: #4B5563;
     padding-top: 0rem;
-    padding-bottom: 0rem;
+    padding-bottom: 0.1rem;
 }
 #static-schedule-fixed-header > div:first-child {
-    width: 45px; /* --- EDIT this to control the Hour column width --- */
+    width: 35px; /* --- EDIT this to control the Hour column width --- */
     text-align: left;
 }
 #static-schedule-fixed-header > div:nth-child(2) {
@@ -279,7 +279,7 @@ main {
 #static-bus-schedule-table-container {
     display: grid;
     padding: 0rem;
-    grid-template-columns: 45px 1fr; /* This MUST match the header's "Hour" width */
+    grid-template-columns: 35px 1fr; /* This MUST match the header's "Hour" width */
     /* FIX: Restore the vertical scrollbar. This is the key fix. */
     overflow-y: auto;
     overflow-x: auto; 
@@ -297,10 +297,10 @@ main {
 
 /* 6. Styling for the "Hour" data cells */
 .schedule-hour-cell {
-    font-weight: 600;
+    font-weight: 500;
     color: #1F2937;
     border-bottom: 1px solid #f3f4f6;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     text-align: left;
     
     /* --- FIX: Using Flexbox for perfect vertical centering --- */
@@ -310,18 +310,19 @@ main {
 
 /* 7. Styling for the "Minutes" data cells */
 .schedule-minutes-cell {
-    padding: 0rem 0.75rem 0rem;
+    padding: 0.15rem 0.17rem 0.15rem;
     border-bottom: 1px solid #f3f4f6;
     white-space: nowrap; 
+    font-size: 0.5rem;
 }
 
 /* 8. Styling for the individual minute numbers */
 .schedule-minutes-cell .minute-item {
     display: inline-block;
     margin-right: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     color: #374151;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
 }
 
 /* 
@@ -344,7 +345,7 @@ main {
     z-index: 20;
     background-color: #ffffff;
     flex-shrink: 0; /* Prevents the header from shrinking */
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.1rem;
 }
 
 /* 

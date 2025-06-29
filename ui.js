@@ -25,7 +25,7 @@ export function renderArrivals(arrivals, targetEl) {
         li.className = 'py-0.5 flex justify-between items-center w-full text-sm';
         const minutesText = formatMinutesLeft(arr.minutesLeft);
         const isFirstItem = index === 0;
-        const timeClass = isFirstItem ? 'font-semibold text-[var(--app-accent-color)]' : 'font-medium text-gray-500';
+        const timeClass = isFirstItem ? 'font-bold text-[var(--app-accent-color)]' : 'font-medium text-gray-500';
         const waitingTimeClass = isFirstItem ? (minutesText === 'Now!' ? 'text-now-emphasis text-right' : 'font-semibold text-[var(--app-accent-color)] text-right') : 'text-gray-600 text-right';
         li.innerHTML = `<span class="${timeClass}">${arr.time}</span><span class="${waitingTimeClass}">${minutesText}</span>`;
         targetEl.appendChild(li);

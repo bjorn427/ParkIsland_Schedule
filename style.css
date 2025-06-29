@@ -19,7 +19,16 @@ html, body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
-    height: 100%;
+    height: auto;
+}
+
+/* 
+ * FIX: This is the new class to handle dynamic viewport height on mobile.
+ * It uses 100dvh, which adjusts to the browser's visible area.
+*/
+.h-dvh-screen {
+    height: 100vh; /* Fallback for older browsers */
+    height: 100dvh; /* The modern solution for dynamic height */
 }
 
 body {

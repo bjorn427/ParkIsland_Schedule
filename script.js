@@ -143,7 +143,7 @@ function handleStaticScheduleUpdate() {
 function saveBusPreference() {
     const value = favBusDropdown.getValue();
     const saveValue = (value === "None" || !value) ? "" : value;
-    const homeValue = (value === "None" || !value) ? "Tsing Yi <-> Park Island" : value;
+    const homeValue = (value === "None" || !value) ? "Bus: Tsing Yi" : value;
     
     localStorage.setItem('favoriteBusRoute', saveValue);
     busDropdown.updateValue(homeValue);
@@ -163,7 +163,7 @@ function saveTrainPreference() {
 }
 
 function loadPreferences() {
-    const favBus = localStorage.getItem('favoriteBusRoute') || "Tsing Yi <-> Park Island";
+    const favBus = localStorage.getItem('favoriteBusRoute') || "Bus: Tsing Yi";
     busDropdown.updateValue(favBus);
     
     const favTrainLine = localStorage.getItem('favoriteTrainLine') || Object.keys(appData.train)[0];
@@ -211,6 +211,8 @@ function initializeDropdowns() {
 function setupEventListeners() {
     document.querySelectorAll('.bottom-nav-button').forEach(button => {
         button.addEventListener('click', () => handleTabSwitch(button.dataset.tab));
+    document.getElementById('switch-direction-button')?.addEventListener('click', handleSwitchDirection);
+
     });
 
     document.getElementById('schedule-type-selector-container')?.addEventListener('click', (e) => {
@@ -236,6 +238,27 @@ function initializeApp() {
     
     setInterval(updateLiveSchedules, 30000);
     setInterval(() => ui.updateDateTimeDisplay(new Date()), 1000);
+}
+
+function handleSwitchDirection() {
+    if (!staticRouteDropdown) return;
+
+    const currentSelection = staticRouteDropdown.getValue();
+    if (!currentSelection) return;
+
+    const [routeName, currentDirectionName] = currentSelection.split(' | ');
+
+    const transportType = appData.bus[routeName] ? 'bus' : 'ferry';
+    const routeData = appData[transportType][routeName]?.weekday;
+    if (!routeData) return;
+
+    const { direction1Name, direction2Name } = routeData;
+    
+    const oppositeDirectionName = (currentDirectionName === direction1Name) ? direction2Name : direction1Name;
+    const newSelectionText = `${routeName} | ${oppositeDirectionName}`;
+
+    staticRouteDropdown.updateValue(newSelectionText);
+    handleStaticScheduleUpdate(); // <-- ADD THIS LINE
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);

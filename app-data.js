@@ -3,7 +3,7 @@
 
 export const appData = {
     bus: {
-        "Tsing Yi <-> Park Island": {
+        "Bus: Tsing Yi": {
             weekday: {
                 direction1Name: "To Tsing Yi",
                 direction1Times: { "00": [0, 15, 30], "01": [0, 45], "02": [30], "03": [15], "04": [0, 45], "05": [30], "06": [0, 15, 30, 35, 40, 45, 50, 55], "07": [0, 5, 10, 15, 20, 25, 30, 34, 38, 42, 46, 50, 54, 58], "08": [2, 6, 10, 14, 18, 22, 26, 30, 35, 40, 45, 50, 55], "09": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], "10": [0, 10, 20, 30, 40, 50], "11": [0, 10, 20, 30, 40, 50], "12": [0, 10, 20, 30, 40, 50], "13": [0, 10, 20, 30, 40, 50], "14": [0, 10, 20, 30, 40, 50], "15": [0, 10, 20, 30, 40, 50], "16": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "17": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "18": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "19": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "20": [0, 12, 24, 36, 48], "21": [0, 12, 24, 36, 48], "22": [0, 12, 24, 36, 48], "23": [0, 15, 30, 45] },
@@ -23,7 +23,7 @@ export const appData = {
                 direction2Times: { "00": [0, 15, 30, 45], "01": [15], "02": [0, 45], "03": [30], "04": [15], "05": [0, 45], "06": [15, 30, 40, 50], "07": [0, 10, 20, 30, 40, 50], "08": [0, 10, 20, 30, 40, 50], "09": [0, 10, 20, 30, 40, 50], "10": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "11": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], "12": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], "13": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "14": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "15": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "16": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "17": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], "18": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], "19": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "20": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "21": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "22": [0, 6, 12, 18, 24, 30, 36, 42, 48, 54], "23": [0, 6, 12, 18, 24, 30, 40, 50] }
             }
         },
-        "Kwai Fong <-> Park Island": {
+        "Bus: Kwai Fong": {
             weekday: {
                 direction1Name: "To Kwai Fong",
                 direction1Times: { "00": [0, 15, 45], "01": [0, 45], "02": [30], "03": [15], "04": [0, 45], "05": [30], "06": [0, 15, 30, 40, 50], "07": [0, 10, 20, 30, 40, 50], "08": [0, 10, 20, 30, 40, 50], "09": [0, 10, 20, 30, 45], "10": [0, 12, 24, 36, 48], "11": [0, 12, 24, 36, 48], "12": [0, 12, 24, 36, 48], "13": [0, 12, 24, 36, 48], "14": [0, 12, 24, 36, 48], "15": [0, 12, 24, 36, 48], "16": [0, 12, 24, 36, 48], "17": [0, 10, 20, 30, 40, 50], "18": [0, 10, 20, 30, 40, 50], "19": [0, 12, 24, 36, 48], "20": [0, 12, 24, 36, 48], "21": [0, 12, 24, 36, 48], "22": [0, 12, 24, 36, 48], "23": [0, 15, 30, 45] },
@@ -43,7 +43,7 @@ export const appData = {
                 direction2Times: { "00": [0, 30], "01": [0, 25], "02": [10, 55], "03": [40], "04": [25, 55], "05": [10, 55], "06": [20, 35, 45, 55], "07": [5, 15, 25, 35, 45, 55], "08": [5, 15, 25, 35, 45, 55], "09": [5, 15, 25, 35, 45], "10": [0, 12, 24, 36, 48], "11": [0, 12, 24, 36, 48], "12": [0, 12, 24, 36, 48], "13": [0, 12, 24, 36, 48], "14": [0, 12, 24, 36, 48], "15": [0, 12, 24, 36, 48], "16": [0, 12, 24, 36, 48], "17": [0, 10, 20, 30, 40, 50], "18": [0, 10, 20, 30, 38, 46, 54], "19": [2, 10, 18, 26, 34, 42, 50, 58], "20": [6, 14, 22, 30, 38, 46, 54], "21": [2, 10, 18, 26, 34, 42, 50, 58], "22": [6, 14, 22, 30, 38, 46, 54], "23": [2, 15, 30, 45] }
             }
         },
-        "Tsuen Wan <-> Park Island": {
+        "Bus: Tsuen Wan": {
             weekday: {
                 direction1Name: "To Tsuen Wan",
                 direction1Times: { "00": [0], "06": [0, 30],"07": [0, 20, 40], "08": [0, 20, 40], "09": [0, 20, 40], "10": [0, 20, 40], "11": [0, 20, 40], "12": [0, 20, 40], "13": [0, 20, 40], "14": [0, 20, 40], "15": [0, 20, 40], "16": [0, 20, 40], "17": [0, 20, 40], "18": [0, 20, 40], "19": [0, 20, 40], "20": [0, 20, 40], "21": [0, 30], "22": [0, 30], "23": [0, 30]},
@@ -62,10 +62,29 @@ export const appData = {
                 direction2Name: "To Park Island",
                 direction2Times: { "00": [20], "06": [20, 50],"07": [20, 40], "08": [0, 20, 40], "09": [0, 20, 40], "10": [0, 20, 40], "11": [0, 20, 40], "12": [0, 20, 40], "13": [0, 20, 40], "14": [0, 20, 40], "15": [0, 20, 40], "16": [0, 20, 40], "17": [0, 20, 40], "18": [0, 20, 40], "19": [0, 20, 40], "20": [0, 20, 40], "21": [0, 20, 40], "22": [20, 50], "23": [20, 50]},
             }
+        },
+        "Bus: Airport": {
+            weekday: {
+                direction1Name: "To Airport",
+                direction1Times: { "00": [0], "06": [0, 30],"07": [0, 30], "08": [0, 30], "09": [0, 30], "10": [0, 30], "11": [0, 30], "12": [0, 30], "13": [0, 30], "14": [0, 30], "15": [0, 30], "16": [0, 30], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0, 30], "22": [0, 30], "23": [0, 30]},
+                direction2Name: "To Park Island",
+                direction2Times: { "00": [0, 30], "06": [30],"07": [0, 30], "08": [0, 30], "09": [0, 30], "10": [0, 30], "11": [0, 30], "12": [0, 30], "13": [0, 30], "14": [0, 30], "15": [0, 30], "16": [0, 30], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0, 30], "22": [0, 30], "23": [0, 30]},
+            },
+            saturday: {
+                direction1Name: "To Airtport",
+                direction1Times: { "00": [0], "06": [0, 30],"07": [0, 30], "08": [0, 30], "09": [0, 30], "10": [0, 30], "11": [0, 30], "12": [0, 30], "13": [0, 30], "14": [0, 30], "15": [0, 30], "16": [0, 30], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0, 30], "22": [0, 30], "23": [0, 30]},
+                direction2Name: "To Park Island",
+                direction2Times: { "00": [0, 30], "06": [30],"07": [0, 30], "08": [0, 30], "09": [0, 30], "10": [0, 30], "11": [0, 30], "12": [0, 30], "13": [0, 30], "14": [0, 30], "15": [0, 30], "16": [0, 30], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0, 30], "22": [0, 30], "23": [0, 30]},
+            },
+            sundayPublicHoliday: {
+                direction1Name: "To Airtport",
+                direction1Times: { "00": [0], "06": [0, 30],"07": [0, 30], "08": [0, 30], "09": [0, 30], "10": [0, 30], "11": [0, 30], "12": [0, 30], "13": [0, 30], "14": [0, 30], "15": [0, 30], "16": [0, 30], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0, 30], "22": [0, 30], "23": [0, 30]},
+                direction2Name: "To Park Island",
+                direction2Times: { "00": [0, 30], "06": [30],"07": [0, 30], "08": [0, 30], "09": [0, 30], "10": [0, 30], "11": [0, 30], "12": [0, 30], "13": [0, 30], "14": [0, 30], "15": [0, 30], "16": [0, 30], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0, 30], "22": [0, 30], "23": [0, 30]},            }
         }
     },
     ferry: {
-        "Central Pier <-> Park Island": {
+        "Ferry: Central Pier": {
             weekday: {
                 direction1Name: "To Central Pier",
                 direction1Times: { "06": [30], "07": [0, 20, 40], "08": [0, 20, 40], "09": [0, 20, 40], "10": [0], "11": [0], "12": [0], "13": [0], "14": [0], "15": [0], "16": [0], "17": [0, 30], "18": [0, 30], "19": [0, 30], "20": [0, 30], "21": [0], "22": [0], "23": [0] },
@@ -85,7 +104,7 @@ export const appData = {
                 direction2Times: { "07": [30], "08": [30], "09": [30], "10": [30], "11": [30], "12": [30], "13": [30], "14": [30], "15": [30], "16": [30], "17": [30], "18": [30], "19": [30], "20": [30], "21": [30], "22": [30], "23": [30] }
             }
         },
-        "Tsuen Wan Pier <-> Park Island": {
+        "Ferry: Tsuen Wan Pier": {
             weekday: {
                 direction1Name: "To Tsuen Wan Pier",
                 direction1Times: { "07": [25, 55], "08": [25, 55], "17": [25, 55], "18": [25, 55] },
@@ -112,8 +131,8 @@ export const appData = {
         "Island Line": { "apiLineCode": "ISL", "endpoint1NameForDisplay": "To Kennedy Town", "endpoint1ActualDestCode": "KET", "endpoint2NameForDisplay": "To Chai Wan", "endpoint2ActualDestCode": "CHW", "defaultStationName": "Central", "stations": { "Kennedy Town": "KET", "HKU": "HKU", "Sai Ying Pun": "SYP", "Sheung Wan": "SHW", "Central": "CEN", "Admiralty": "ADM", "Wan Chai": "WAC", "Causeway Bay": "CAB", "Tin Hau": "TIH", "Fortress Hill": "FOH", "North Point": "NOP", "Quarry Bay": "QUB", "Tai Koo": "TAK", "Sai Wan Ho": "SWH", "Shau Kei Wan": "SKW", "Heng Fa Chuen": "HFC", "Chai Wan": "CHW"} },
         "Tuen Ma Line": { "apiLineCode": "TML", "endpoint1NameForDisplay": "To Tuen Mun", "endpoint1ActualDestCode": "TUM", "endpoint2NameForDisplay": "To Wu Kai Sha", "endpoint2ActualDestCode": "WKS", "defaultStationName": "Nam Cheong", "stations": {"Wu Kai Sha": "WKS", "Ma On Shan": "MOS", "Heng On": "HEO", "Tai Shui Hang": "TSH", "Shek Mun": "SHM", "City One": "CIO", "Sha Tin Wai": "STW", "Che Kung Temple": "CKT", "Tai Wai": "TAW", "Hin Keng": "HIK", "Diamond Hill": "DIH", "Kai Tak": "KAT", "Sung Wong Toi": "SUW", "To Kwa Wan": "TKW", "Ho Man Tin": "HOM", "Hung Hom": "HUH", "East Tsim Sha Tsui": "ETS", "Austin": "AUS", "Nam Cheong": "NAC", "Mei Foo": "MEF", "Tsuen Wan West": "TWW", "Kam Sheung Road": "KSR", "Yuen Long": "YUL", "Long Ping": "LOP", "Tin Shui Wai": "TIS", "Siu Hong": "SIH", "Tuen Mun": "TUM"}},
         "Airport Express": { "apiLineCode": "AEL", "endpoint1NameForDisplay": "To AsiaWorld Expo", "endpoint1ActualDestCode": "AWE", "endpoint2NameForDisplay": "To Hong Kong", "endpoint2ActualDestCode": "HOK", "defaultStationName": "Tsing Yi", "stations": { "Hong Kong": "HOK", "Kowloon": "KOW", "Tsing Yi": "TSY", "Airport": "AIR", "AsiaWorld Expo": "AWE"}},
-        "Tseung Kwan O Line": { "apiLineCode": "TKL", "endpoint1NameForDisplay": "To North Point", "endpoint1ActualDestCode": "NOP", "endpoint2NameForDisplay": "To Po Lam / LOHAS Park", "endpoint2ActualDestCode": ["POA", "LHP"], "defaultStationName": "Tseung Kwan O", "stations": {"North Point": "NOP", "Quarry Bay": "QUB", "Yau Tong": "YAT", "Tiu Keng Leng": "TIK", "Tseung Kwan O": "TKO", "LOHAS Park": "LHP", "Hang Hau": "HAH", "Po Lam": "POA"}},
-        "East Rail Line": { "apiLineCode": "EAL", "endpoint1NameForDisplay": "To Admiralty", "endpoint1ActualDestCode": "ADM", "endpoint2NameForDisplay": "To Lo Wu / Lok Ma Chau", "endpoint2ActualDestCode": ["LOW", "LMC"], "defaultStationName": "Sha Tin", "stations": {"Admiralty": "ADM", "Exhibition Centre": "EXC", "Hung Hom": "HUH", "Mong Kok East": "MKK", "Kowloon Tong": "KOT", "Tai Wai": "TAW", "Sha Tin": "SHT", "Fo Tan": "FOT", "Racecourse": "RAC", "University": "UNI", "Tai Po Market": "TAP", "Tai Wo": "TWO", "Fanling": "FAN", "Sheung Shui": "SHS", "Lo Wu": "LOW", "Lok Ma Chau": "LMC"}},
+        "Tseung Kwan O Line": { "apiLineCode": "TKL", "endpoint1NameForDisplay": "To North Point", "endpoint1ActualDestCode": "NOP", "endpoint2NameForDisplay": "To Po Lam / LOHAS P.", "endpoint2ActualDestCode": ["POA", "LHP"], "defaultStationName": "Tseung Kwan O", "stations": {"North Point": "NOP", "Quarry Bay": "QUB", "Yau Tong": "YAT", "Tiu Keng Leng": "TIK", "Tseung Kwan O": "TKO", "LOHAS Park": "LHP", "Hang Hau": "HAH", "Po Lam": "POA"}},
+        "East Rail Line": { "apiLineCode": "EAL", "endpoint1NameForDisplay": "To Admiralty", "endpoint1ActualDestCode": "ADM", "endpoint2NameForDisplay": "To Lo Wu / Lok Ma C.", "endpoint2ActualDestCode": ["LOW", "LMC"], "defaultStationName": "Sha Tin", "stations": {"Admiralty": "ADM", "Exhibition Centre": "EXC", "Hung Hom": "HUH", "Mong Kok East": "MKK", "Kowloon Tong": "KOT", "Tai Wai": "TAW", "Sha Tin": "SHT", "Fo Tan": "FOT", "Racecourse": "RAC", "University": "UNI", "Tai Po Market": "TAP", "Tai Wo": "TWO", "Fanling": "FAN", "Sheung Shui": "SHS", "Lo Wu": "LOW", "Lok Ma Chau": "LMC"}},
         "South Island Line": { "apiLineCode": "SIL", "endpoint1NameForDisplay": "To Admiralty", "endpoint1ActualDestCode": "ADM", "endpoint2NameForDisplay": "To South Horizons", "endpoint2ActualDestCode": "SOH", "defaultStationName": "Wong Chuk Hang", "stations": {"Admiralty": "ADM", "Ocean Park": "OCP", "Wong Chuk Hang": "WCH", "Lei Tung": "LET", "South Horizons": "SOH"}},
         "Kwun Tong Line": { "apiLineCode": "KTL", "endpoint1NameForDisplay": "To Whampoa", "endpoint1ActualDestCode": "WHA", "endpoint2NameForDisplay": "To Tiu Keng Leng", "endpoint2ActualDestCode": "TIK", "defaultStationName": "Prince Edward", "stations": {"Whampoa": "WHA", "Ho Man Tin": "HOM", "Yau Ma Tei": "YMT", "Mong Kok": "MOK", "Prince Edward": "PRE", "Shek Kip Mei": "SKM", "Kowloon Tong": "KOT", "Lok Fu": "LOF", "Wong Tai Sin": "WTS", "Diamond Hill": "DIH", "Choi Hung": "CHH", "Kowloon Bay": "KOB", "Ngau Tau Kok": "NTK", "Kwun Tong": "KWT", "Lam Tin": "LAT", "Yau Tong": "YAT", "Tiu Keng Leng": "TIK"}}
     }

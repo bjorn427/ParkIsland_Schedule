@@ -2,8 +2,8 @@
 // This file contains easily editable metadata for the application.
 
 export const appInfo = {
-    version: "2.1.2",
-    versionNotes: "Added schedules for buses for Central (Overnight), Tsuen Wan West, Kowloon MTR",
+    version: "2.2.0",
+    versionNotes: "Converting it to a full-sized app",
     developer: "B.M.",
-    lastUpdated: "July 28th 2025"
+    lastUpdated: "July 29th 2025"
 };
